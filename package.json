@@ -1,0 +1,37 @@
+{
+  "name": "keep-playing",
+  "version": "0.0.1",
+  "private": true,
+  "description": "The operating environment for AhTohMoh.",
+  "license": "AGPL-3.0-only",
+  "author": "AhTohMoh (WYETEY LTD)",
+  "homepage": "https://keepplaying.studio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahtohmoh/keep-playing"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "db:generate": "pnpm --filter @keep-playing/db generate",
+    "db:migrate": "pnpm --filter @keep-playing/db migrate",
+    "db:seed": "pnpm --filter @keep-playing/db seed",
+    "db:studio": "pnpm --filter @keep-playing/db studio",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.3",
+    "typescript": "^5.4.5"
+  }
+}

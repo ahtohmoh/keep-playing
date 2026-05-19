@@ -1,0 +1,13 @@
+@import '@keep-playing/ui/styles.css';
+
+/* App-specific overrides go below. Token additions belong in packages/ui. */
+
+html,
+body {
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+}
+
+.display-serif,
+.font-serif {
+  font-family: var(--font-serif), Fraunces, Georgia, serif;
+}

@@ -9,6 +9,7 @@ const nextConfig = {
     '@keep-playing/storage',
     '@keep-playing/transcription',
     '@keep-playing/notifications',
+    '@keep-playing/templates',
   ],
   experimental: {
     typedRoutes: true,

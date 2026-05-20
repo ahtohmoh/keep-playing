@@ -138,6 +138,10 @@ async function main() {
   console.log('Seeding knowledge base...');
   await seedKnowledge();
 
+  console.log('Seeding templates...');
+  const { seedTemplates } = await import('../seeds/templates');
+  await seedTemplates();
+
   console.log('Done.');
   process.exit(0);
 }

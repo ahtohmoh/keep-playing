@@ -26,9 +26,17 @@ export default async function CollectiveLayout({ children }: { children: ReactNo
             <Link href="/voice" className="hover:text-foreground transition-colors">
               Voice
             </Link>
+            <Link href="/templates" className="hover:text-foreground transition-colors">
+              Templates
+            </Link>
             <Link href="/knowledge" className="hover:text-foreground transition-colors">
               Knowledge
             </Link>
+            {(user.tier === 'correspondent' || user.tier === 'founder') && (
+              <Link href="/pipeline" className="hover:text-foreground transition-colors">
+                Pipeline
+              </Link>
+            )}
             <Link href="/constellation" className="hover:text-foreground transition-colors">
               Constellation
             </Link>

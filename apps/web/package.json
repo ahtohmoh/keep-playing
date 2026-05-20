@@ -16,6 +16,7 @@
     "@keep-playing/notifications": "workspace:*",
     "@keep-playing/shared": "workspace:*",
     "@keep-playing/storage": "workspace:*",
+    "@keep-playing/templates": "workspace:*",
     "@keep-playing/transcription": "workspace:*",
     "@keep-playing/ui": "workspace:*",
     "drizzle-orm": "^0.36.4",

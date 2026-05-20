@@ -6,6 +6,7 @@ const nextConfig = {
     '@keep-playing/shared',
     '@keep-playing/auth',
     '@keep-playing/db',
+    '@keep-playing/storage',
   ],
   experimental: {
     typedRoutes: true,

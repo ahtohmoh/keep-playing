@@ -72,6 +72,7 @@ export const projectCreateSchema = z.object({
 
 export const projectUpdateSchema = projectCreateSchema.partial().extend({
   status: z.enum(PROJECT_STATUSES).optional(),
+  brief: z.object({ body: z.string().max(40000) }).optional(),
 });
 
 export const projectContributorAddSchema = z.object({

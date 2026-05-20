@@ -23,6 +23,9 @@ export default async function CollectiveLayout({ children }: { children: ReactNo
             <Link href="/members" className="hover:text-foreground transition-colors">
               Members
             </Link>
+            <Link href="/voice" className="hover:text-foreground transition-colors">
+              Voice
+            </Link>
             <Link href="/knowledge" className="hover:text-foreground transition-colors">
               Knowledge
             </Link>

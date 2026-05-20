@@ -15,6 +15,7 @@
     "@keep-playing/db": "workspace:*",
     "@keep-playing/shared": "workspace:*",
     "@keep-playing/storage": "workspace:*",
+    "@keep-playing/transcription": "workspace:*",
     "@keep-playing/ui": "workspace:*",
     "drizzle-orm": "^0.36.4",
     "next": "^14.2.18",

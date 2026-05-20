@@ -38,22 +38,31 @@ See [`docs/build-spec.md`](docs/build-spec.md) §2 for full rationale.
 ## Run it
 
 ```bash
-# Install
+# 1. Start a local Postgres (one-time)
+docker run --name kp-pg \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=keep_playing \
+  -p 5432:5432 -d postgres:16
+
+# 2. Install
 pnpm install
 
-# Configure
+# 3. Configure
 cp .env.example .env.local
-# Fill in DATABASE_URL at minimum.
+# DATABASE_URL is already correct for the docker command above. Set AUTH_SECRET.
 
-# Migrate
+# 4. Migrate + seed
 pnpm db:migrate
 pnpm db:seed
 
-# Run
+# 5. Set the Founder's password (one-time)
+FOUNDER_PASSWORD=somethingstrong pnpm --filter @keep-playing/db bootstrap
+
+# 6. Run
 pnpm dev
 ```
 
-The app boots at `http://localhost:3000`.
+The app boots at `http://localhost:3000`. Sign in as `krasumashi@ahtohmoh.com`.
 
 ## Repository
 

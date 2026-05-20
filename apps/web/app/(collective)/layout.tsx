@@ -1,12 +1,14 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
+import { TierBadge } from '@keep-playing/ui';
+import { getCurrentSession } from '@/lib/session';
+import { SignOutButton } from '@/components/sign-out-button';
 
-/**
- * Authed shell. Once auth wires up (Week 2), this layout reads the session
- * and redirects unauthenticated visitors to /login. For now it renders the
- * shell so the route structure is exercised.
- */
-export default function CollectiveLayout({ children }: { children: ReactNode }) {
+export default async function CollectiveLayout({ children }: { children: ReactNode }) {
+  const { user } = await getCurrentSession();
+  if (!user) redirect('/login');
+
   return (
     <div className="min-h-dvh flex flex-col">
       <header className="border-b border-border">
@@ -27,6 +29,15 @@ export default function CollectiveLayout({ children }: { children: ReactNode }) 
             <Link href="/constellation" className="hover:text-foreground transition-colors">
               Constellation
             </Link>
+            <span className="text-foreground-subtle">|</span>
+            <Link
+              href={`/members/${user.id}`}
+              className="flex items-center gap-2 hover:text-foreground transition-colors"
+            >
+              <span>{user.displayName ?? user.fullName}</span>
+              <TierBadge tier={user.tier} />
+            </Link>
+            <SignOutButton />
           </nav>
         </div>
       </header>

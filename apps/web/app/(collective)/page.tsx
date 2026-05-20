@@ -4,6 +4,7 @@ import { db, projects, users } from '@keep-playing/db';
 import { Heading, Prose } from '@keep-playing/ui';
 import { TIER_SHORT_DESCRIPTION } from '@keep-playing/shared';
 import { requireUser } from '@/lib/session';
+import { currentSeason } from '@/lib/seasons';
 
 export default async function CollectiveHome() {
   const { user } = await requireUser();
@@ -26,7 +27,7 @@ export default async function CollectiveHome() {
         <Stat label="Active projects" value={activeProjects[0]?.c ?? 0} href="/projects" />
         <Stat label="Collective members" value={members[0]?.c ?? 0} href="/members" />
         <Stat label="Voice notes" value="—" href={null} />
-        <Stat label="Current season" value="Founding" href={null} />
+        <Stat label="Current season" value={currentSeason().name.replace(/^The /, '')} href={null} />
       </dl>
 
       {user.tier === 'founder' && (

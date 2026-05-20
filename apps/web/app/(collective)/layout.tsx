@@ -12,11 +12,16 @@ export default async function CollectiveLayout({ children }: { children: ReactNo
   return (
     <div className="min-h-dvh flex flex-col">
       <header className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="font-serif text-lg tracking-tight">
+        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-4">
+          <Link href="/" className="font-serif text-lg tracking-tight shrink-0">
             Keep Playing
           </Link>
-          <nav className="flex items-center gap-6 text-sm text-foreground-muted">
+          <nav className="flex items-center gap-4 sm:gap-6 text-sm text-foreground-muted overflow-x-auto whitespace-nowrap">
+            {user.tier === 'founder' && (
+              <Link href="/dashboard" className="hover:text-foreground transition-colors">
+                Dashboard
+              </Link>
+            )}
             <Link href="/projects" className="hover:text-foreground transition-colors">
               Projects
             </Link>

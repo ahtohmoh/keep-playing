@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { eq } from 'drizzle-orm';
-import { db, users } from '@keep-playing/db';
+import { desc, eq } from 'drizzle-orm';
+import { db, projectContributors, projects, users } from '@keep-playing/db';
 import { Heading, Prose, TierBadge } from '@keep-playing/ui';
-import { TIER_LABEL, TIER_SHORT_DESCRIPTION } from '@keep-playing/shared';
+import { TIER_LABEL, TIER_SHORT_DESCRIPTION, PROJECT_TYPE_LABEL } from '@keep-playing/shared';
 import { requireUser } from '@/lib/session';
 
 export default async function MemberPage({ params }: { params: { id: string } }) {
@@ -79,13 +79,69 @@ export default async function MemberPage({ params }: { params: { id: string } })
         <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
           Legacy Plot
         </h3>
-        <Prose className="text-foreground-muted max-w-2xl">
-          <p>
-            {isSelf ? 'Your' : `${m.displayName ?? m.fullName}'s`} Legacy Plot — projects shipped,
-            artifacts touched, contributions made — appears here. Week 12 of the build.
-          </p>
-        </Prose>
+        <LegacyPlot userId={m.id} isSelf={isSelf} fallbackName={m.displayName ?? m.fullName} />
       </section>
+    </div>
+  );
+}
+
+async function LegacyPlot({
+  userId,
+  isSelf,
+  fallbackName,
+}: {
+  userId: string;
+  isSelf: boolean;
+  fallbackName: string;
+}) {
+  const rows = await db
+    .select({ project: projects, role: projectContributors.role, joinedAt: projectContributors.joinedAt })
+    .from(projectContributors)
+    .innerJoin(projects, eq(projectContributors.projectId, projects.id))
+    .where(eq(projectContributors.userId, userId))
+    .orderBy(desc(projectContributors.joinedAt));
+
+  if (rows.length === 0) {
+    return (
+      <Prose className="text-foreground-muted max-w-2xl">
+        <p>
+          {isSelf ? 'Your' : `${fallbackName}'s`} Plot will grow with each project shipped, each
+          artifact touched, each contribution made.
+        </p>
+      </Prose>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {rows.map(({ project: p, role, joinedAt }) => (
+        <Link
+          key={p.id}
+          href={`/projects/${p.slug}`}
+          className="block rounded-md border border-border bg-surface px-4 py-3 hover:border-border-emphasis transition-colors"
+        >
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <p className="text-foreground">
+              {p.artifactNumber != null && (
+                <span className="font-mono text-accent mr-2">
+                  · {String(p.artifactNumber).padStart(3, '0')}
+                </span>
+              )}
+              {p.title}
+            </p>
+            <span className="text-xs uppercase tracking-wide text-foreground-subtle">
+              {role} · {p.status}
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-foreground-subtle">
+            {PROJECT_TYPE_LABEL[p.type]} ·{' '}
+            {new Date(joinedAt).toLocaleDateString('en-GB', {
+              year: 'numeric',
+              month: 'short',
+            })}
+          </p>
+        </Link>
+      ))}
     </div>
   );
 }

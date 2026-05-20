@@ -1,39 +1,25 @@
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { Heading, Prose } from '@keep-playing/ui';
-import { getCurrentSession } from '@/lib/session';
+import { Prose } from '@keep-playing/ui';
+import { requireUser } from '@/lib/session';
+import { WizardFrame } from '../wizard-frame';
 
-export default async function OnboardingWelcomePage() {
-  const { user } = await getCurrentSession();
-  if (!user) redirect('/login');
-
+export default async function Welcome() {
+  const { user } = await requireUser();
   return (
-    <main className="min-h-dvh flex flex-col">
-      <header className="border-b border-border">
-        <div className="mx-auto max-w-5xl px-6 py-5">
-          <Link href="/" className="font-serif text-xl tracking-tight">
-            Keep Playing
-          </Link>
-        </div>
-      </header>
-      <section className="flex-1 mx-auto w-full max-w-prose px-6 py-24">
-        <Heading level={1} variant="display">
-          You&apos;re in.
-        </Heading>
-        <Prose className="mt-8 text-lg text-foreground-muted">
-          <p>
-            Welcome, {user.displayName ?? user.fullName}. The full Onboarding Wizard arrives in
-            Week 11 of the build — six stages introducing AhTohMoh before introducing Keep Playing.
-            For now, you can carry on to the app.
-          </p>
-        </Prose>
-        <Link
-          href="/"
-          className="mt-10 inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-lg font-medium text-background hover:bg-accent-muted transition-colors"
-        >
-          Enter
-        </Link>
-      </section>
-    </main>
+    <WizardFrame step={1} title="You&apos;re in." next="/onboarding/tier">
+      <Prose className="text-lg text-foreground-muted">
+        <p className="text-foreground">
+          Welcome, {user.displayName ?? user.fullName.split(' ')[0]}.
+        </p>
+        <p>
+          We are AhTohMoh. A creative research and experimentation agency in Accra, Ghana. You have
+          signed an agreement, which means you are now part of the Collective.
+        </p>
+        <p>
+          Before you do anything in here, we want you to know who we are and how we work. This will
+          take about thirty minutes. Do not skip it. The practice is what we are building together.
+        </p>
+        <p>When you are ready, keep going.</p>
+      </Prose>
+    </WizardFrame>
   );
 }

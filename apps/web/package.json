@@ -13,6 +13,7 @@
   "dependencies": {
     "@keep-playing/auth": "workspace:*",
     "@keep-playing/db": "workspace:*",
+    "@keep-playing/notifications": "workspace:*",
     "@keep-playing/shared": "workspace:*",
     "@keep-playing/storage": "workspace:*",
     "@keep-playing/transcription": "workspace:*",

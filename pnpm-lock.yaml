@@ -29,6 +29,9 @@ importers:
       '@keep-playing/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@keep-playing/notifications':
+        specifier: workspace:*
+        version: link:../../packages/notifications
       '@keep-playing/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -134,6 +137,22 @@ importers:
       tsx:
         specifier: ^4.19.2
         version: 4.22.3
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+
+  packages/notifications:
+    dependencies:
+      '@keep-playing/db':
+        specifier: workspace:*
+        version: link:../db
+      drizzle-orm:
+        specifier: ^0.36.4
+        version: 0.36.4(@types/react@18.3.28)(postgres@3.4.9)(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.41
       typescript:
         specifier: ^5.4.5
         version: 5.9.3

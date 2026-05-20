@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { and, eq } from 'drizzle-orm';
-import { db, projectContributors } from '@keep-playing/db';
+import { db, projectContributors, projects } from '@keep-playing/db';
 import { projectContributorAddSchema } from '@keep-playing/shared';
 import { can } from '@keep-playing/auth';
+import { notify } from '@keep-playing/notifications';
 import { requireUser } from '@/lib/session';
 import { audit } from '@/lib/audit';
 import { getMembershipFor } from '@/lib/projects';
@@ -67,6 +68,17 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     targetId: params.id,
     payload: { userId: parsed.data.userId, role: parsed.data.role },
   });
+
+  const proj = await db.select().from(projects).where(eq(projects.id, params.id)).limit(1);
+  if (proj[0]) {
+    await notify(parsed.data.userId, {
+      type: 'project_invited',
+      title: `You've joined ${proj[0].title}.`,
+      body: `Role: ${parsed.data.role}.`,
+      link: `/projects/${proj[0].slug}`,
+      sendWhatsApp: true,
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }

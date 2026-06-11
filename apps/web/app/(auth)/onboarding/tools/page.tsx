@@ -12,8 +12,8 @@ export default async function ToolsStage() {
       nextLabel="Enter Keep Playing"
       prev="/onboarding/project"
     >
-      <Prose className="text-foreground-muted">
-        <p className="text-foreground">
+      <Prose className="text-muted-strong">
+        <p className="text-ink">
           Only now, at the end, do we cover the practical mechanics. The order matters.
         </p>
       </Prose>
@@ -46,7 +46,7 @@ export default async function ToolsStage() {
         artifact. The platform exists to reinforce these, not to negotiate with them.
       </Section>
 
-      <Prose className="mt-12 text-foreground-muted">
+      <Prose className="mt-12 text-muted-strong">
         <p>That is enough for today. The rest you will learn by doing.</p>
       </Prose>
     </WizardFrame>
@@ -56,10 +56,10 @@ export default async function ToolsStage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-10">
-      <h2 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-2">
+      <h2 className="text-sm font-medium uppercase tracking-wide text-muted mb-2">
         {title}
       </h2>
-      <Prose className="text-foreground-muted">
+      <Prose className="text-muted-strong">
         <p>{children}</p>
       </Prose>
     </section>

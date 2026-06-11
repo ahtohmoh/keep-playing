@@ -41,7 +41,7 @@ export default async function MilestonesPage({ params }: { params: { slug: strin
     <div>
       <Link
         href={`/projects/${project.slug}`}
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← {project.title}
       </Link>
@@ -51,7 +51,7 @@ export default async function MilestonesPage({ params }: { params: { slug: strin
 
       <div className="mt-8 space-y-3">
         {list.length === 0 ? (
-          <p className="text-foreground-muted text-sm">No milestones yet.</p>
+          <p className="text-muted-strong text-sm">No milestones yet.</p>
         ) : (
           list.map((m) => <MilestoneRow key={m.id} milestone={m} canEdit={canEdit} />)
         )}

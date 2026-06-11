@@ -110,12 +110,72 @@ The 14-week Stage 1 build plan (§22 of the canonical spec):
 |---|---|
 | 14 | Mobile-responsive pass, PWA, E2E tests, deploy to production, soft launch |
 
+## Stage 1.5 — The Async Loop (added in v1.1)
+
+Stage 1 was feature-complete against the original spec. Stage 1.5 closes the gaps between the spec's own principles and what was built. In priority order:
+
+| # | Item | Why |
+|---|---|---|
+| 1 | **Catch-up home** — "Since you were here" as the signed-in default view, built from the audit log + per-project `last_seen_at` markers | Async by default requires a catch-up loop. This is the platform's core surface. |
+| 2 | **Timezones** — `users.timezone`, quiet hours computed in member-local time | The Collective is distributed. Due dates and notification windows must respect local time. |
+| 3 | **Email as a first-class channel** — transactional sends + weekly quiet digest via Resend | De-risks notifications entirely. See "Notification channels" below. |
+| 4 | **Cmd+K command palette** — navigate, search, create from the keyboard | The platform's intelligence surface. Mono/pencil styling. |
+| 5 | **Brief revisions** — append-only history of every brief edit | "Process visible in the artifact" applies to briefs most of all. |
+| 6 | **Decision log** — first-class Decision entity per project (what, who, when, what it reversed) | Texture over status. Decisions are the texture. |
+| 7 | **Seasons table** — Founder names each season; epoch math becomes a fallback | The spec always said the Founder names seasons. |
+| 8 | **File previews** — inline image/PDF/video in deliverables | The first Fellow is a visualiser. The deliverables space is a studio wall, not a file cabinet. |
+| 9 | **Rate limiting + founder TOTP** | The spec promised both. |
+| 10 | **pgvector + embed-on-write** | Semantic search in Stage 1.5; the AI Layer's context engine in Stage 2. Requires pgvector (Neon: enable extension; local: pgvector image). |
+
+## Notification channels (revised in v1.1)
+
+WhatsApp is **relegated from primary to optional**. The decision: work should not live inside a third-party chat app, and the Collective will carry the platform in their pockets natively.
+
+The channel stack, in order:
+
+1. **In-app** — the notification surface. Always on.
+2. **Native push** (Stage 2, via the mobile app — Expo Push/FCM/APNs). Replaces everything WhatsApp was specified to do.
+3. **Email** — transactional for the critical few (brief assigned, invite); a weekly quiet digest for everything else. Via Resend.
+4. **WhatsApp** — kept as an opt-in personal preference for members who want it. No longer load-bearing. The §10 integration remains in the codebase but is not a launch requirement.
+
+## The Mobile App (elevated in v1.1)
+
+Originally Stage 3 ("a thin native wrapper, maybe"). Now the centrepiece of Stage 2: **Keep Playing is the agency's app.** Joining AhTohMoh means downloading it. Everything the web does, in your pocket — projects, voice notes (recorded natively, better mic access), the knowledge base (offline-readable), notifications via native push.
+
+- **Stack:** Expo + React Native, living in `apps/mobile/` (reserved since Week 1). Shares `packages/shared` types and the same API. Piqabu's app proves this stack and this aesthetic already work together — the design tokens in `packages/ui/src/tokens.ts` are derived from Piqabu's `Theme.ts` and port directly.
+- **Auth:** same session API; biometric unlock on device (Piqabu's BiometricLockScreen pattern).
+- **Voice-first:** the recorder is a primary tab, not a buried feature. Record offline, upload when connected.
+- **Push:** Expo Push notifications replace WhatsApp as the proactive channel.
+- **Distribution:** private — TestFlight + Play internal track initially. Joining the Collective = receiving an invite + the app.
+
+## The Mail Surface (new in v1.1)
+
+Every Collective member receives a practice address (`kofi@ahtohmoh.com`) and reads/sends it inside Keep Playing.
+
+Architecture, in two phases:
+
+- **Phase A — mailboxes exist (one-time setup, no code):** host `ahtohmoh.com` mail on a managed provider. Recommended: **Zoho Mail** (cheap, solid APIs) or **Google Workspace** (best deliverability, richest API). DNS: MX + SPF + DKIM + DMARC. Members can use any mail client from day one.
+- **Phase B — mail inside Keep Playing (Stage 2 build):** a Mail frame in the app reading and sending through the provider's API (Gmail API or Zoho Mail API; OAuth per member, tokens stored encrypted server-side). The app is a *client* of the mailbox, not the mailbox itself — members never lose mail if Keep Playing is down.
+- **Phase C — owned infrastructure (Stage 3 option):** self-host **Stalwart** (open-source Rust mail server, JMAP-native, AGPL like us). Full "Owned, Not Rented." Deferred because deliverability (IP reputation, warm-up) is an operational discipline of its own; rent the hard part until the Collective justifies owning it.
+
+Deliverability rule: the platform's *transactional* email (notifications, digests, invites) stays on Resend with its own subdomain (`mail.keepplaying.studio`) regardless of phase, so member mailbox reputation and platform sending reputation never share fate.
+
+## Knowledge Base (expanded in v1.1)
+
+The knowledge base becomes the agency's institutional memory, not just a document shelf:
+
+- **Founder upload surface** — add/edit docs from the app (currently markdown-in-git only).
+- **The full foundational stack seeded** — Founding Document, Company Profile, Brand Strategy, Agreements, Business Plan, this spec. (Drop the markdown files into `packages/db/seeds/knowledge/` and re-seed.)
+- **Semantic search** over all of it (item 10 above) — "ask the practice a question" becomes possible the moment pgvector ships, and becomes *conversational* when the Stage 2 AI Layer lands.
+- **Mobile offline** — the knowledge base is the first thing the mobile app caches.
+
 ## Changelog
 
 | Version | Date | Notes |
 |---|---|---|
 | 1.0 | 2026-05-19 | Initial spec locked. Stage 1 fully specified. Stage 2/3 architectural readiness. |
 | 1.0.0-scaffold | 2026-05-19 | Week 1 scaffold landed: monorepo, schema, auth foundation, UI tokens, Next.js skeleton. |
+| 1.1 | 2026-05-20 | Stage 1 complete. Added Stage 1.5 (async loop, memory, hardening). WhatsApp relegated to optional; native push + email become the proactive channels. Mobile app elevated to Stage 2 centrepiece. Mail Surface specified (practice addresses in-app). Knowledge base expanded. UI vocabulary locked: AhTohMoh × Piqabu (cream ink, layered paper, pencil labels, scrollless shell). |
 
 ---
 

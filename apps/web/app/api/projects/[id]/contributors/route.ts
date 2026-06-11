@@ -66,6 +66,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     action: 'project.contributor.add',
     targetType: 'project',
     targetId: params.id,
+    projectId: params.id,
     payload: { userId: parsed.data.userId, role: parsed.data.role },
   });
 
@@ -76,7 +77,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       title: `You've joined ${proj[0].title}.`,
       body: `Role: ${parsed.data.role}.`,
       link: `/projects/${proj[0].slug}`,
-      sendWhatsApp: true,
+      sendEmail: true, sendWhatsApp: true,
     });
   }
 

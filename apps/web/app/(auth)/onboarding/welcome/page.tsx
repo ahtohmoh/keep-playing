@@ -6,8 +6,8 @@ export default async function Welcome() {
   const { user } = await requireUser();
   return (
     <WizardFrame step={1} title="You&apos;re in." next="/onboarding/tier">
-      <Prose className="text-lg text-foreground-muted">
-        <p className="text-foreground">
+      <Prose className="text-lg text-muted-strong">
+        <p className="text-ink">
           Welcome, {user.displayName ?? user.fullName.split(' ')[0]}.
         </p>
         <p>

@@ -7,7 +7,9 @@
  * Usage:
  *   FOUNDER_PASSWORD=somethingstrong pnpm --filter @keep-playing/db bootstrap
  */
-import 'dotenv/config';
+import { config } from 'dotenv';
+config({ path: '../../.env.local' });
+config({ path: '../../.env' });
 import { eq } from 'drizzle-orm';
 import { hash } from '@node-rs/argon2';
 import { db } from './client';

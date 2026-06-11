@@ -1,60 +1,68 @@
 import Link from 'next/link';
-import { Heading, Prose, Card, Input, Button } from '@keep-playing/ui';
+import { Input } from '@keep-playing/ui';
 
 export default function LoginPage() {
   return (
-    <main className="min-h-dvh flex flex-col">
-      <header className="border-b border-border">
-        <div className="mx-auto max-w-5xl px-6 py-5">
-          <Link href="/" className="font-serif text-xl tracking-tight">
-            Keep Playing
-          </Link>
-        </div>
-      </header>
+    <>
+      <div className="sketch-bg" aria-hidden />
 
-      <section className="flex-1 mx-auto w-full max-w-md px-6 py-24">
-        <Heading level={2}>Sign in</Heading>
-        <Prose className="mt-3 text-foreground-muted">
-          <p>
-            Keep Playing is invitation-only. If you&apos;re part of the AhTohMoh Collective, sign
-            in with your email.
-          </p>
-        </Prose>
+      <main className="page-shell">
+        <header className="border-b border-edge">
+          <div className="mx-auto max-w-6xl px-pad py-5 flex items-center justify-between">
+            <Link href="/" className="font-ink text-2xl underline-grow">
+              Keep Playing
+            </Link>
+            <span className="pencil-faint">Sign in</span>
+          </div>
+        </header>
 
-        <Card className="mt-8">
-          <form className="space-y-4" action="/api/auth/login" method="post">
-            <label className="block">
-              <span className="text-sm text-foreground-muted">Email</span>
-              <Input
-                type="email"
-                name="email"
-                required
-                autoComplete="email"
-                placeholder="you@ahtohmoh.com"
-                className="mt-1"
-              />
-            </label>
-            <label className="block">
-              <span className="text-sm text-foreground-muted">Password</span>
-              <Input
-                type="password"
-                name="password"
-                required
-                autoComplete="current-password"
-                className="mt-1"
-              />
-            </label>
-            <Button type="submit" className="w-full">
-              Sign in
-            </Button>
-          </form>
-        </Card>
+        <section className="overflow-hidden flex items-center">
+          <div className="mx-auto w-full max-w-md px-pad reveal">
+            <p className="pencil-faint">Welcome back</p>
+            <h1 className="mt-4 font-sans font-light text-[clamp(32px,4vw,52px)] leading-[1] tracking-[-0.02em]">
+              The Collective is open to you.
+            </h1>
 
-        <p className="mt-6 text-sm text-foreground-subtle">
-          No account? Sign-up is currently by invitation only. If Krasumashi has issued you a tier
-          agreement, your invite is in your email.
-        </p>
-      </section>
-    </main>
+            <form className="mt-12 space-y-7" action="/api/auth/login" method="post">
+              <label className="block">
+                <span className="pencil-faint">Email</span>
+                <Input
+                  type="email"
+                  name="email"
+                  required
+                  autoComplete="email"
+                  placeholder="you@ahtohmoh.com"
+                  className="mt-2"
+                />
+              </label>
+              <label className="block">
+                <span className="pencil-faint">Password</span>
+                <Input
+                  type="password"
+                  name="password"
+                  required
+                  autoComplete="current-password"
+                  className="mt-2"
+                />
+              </label>
+              <div className="pt-2">
+                <button type="submit" className="cta-primary">
+                  Continue
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <footer className="border-t border-edge">
+          <div className="mx-auto max-w-6xl px-pad py-4 flex flex-wrap items-center justify-between gap-3">
+            <span className="pencil-faint">Invitation only</span>
+            <Link href="/" className="pencil-faint underline-grow">
+              ← Back
+            </Link>
+          </div>
+        </footer>
+      </main>
+    </>
   );
 }

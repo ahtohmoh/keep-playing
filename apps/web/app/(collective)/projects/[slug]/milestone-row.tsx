@@ -37,7 +37,7 @@ export function MilestoneRow({
   const isDone = milestone.status === 'complete';
 
   return (
-    <div className="flex items-start gap-3 rounded-md border border-border bg-surface px-4 py-3">
+    <div className="flex items-start gap-3 rounded-md border border-edge card-quiet px-4 py-3">
       <button
         type="button"
         onClick={toggle}
@@ -45,19 +45,19 @@ export function MilestoneRow({
         aria-label={isDone ? 'Mark incomplete' : 'Mark complete'}
         className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
           isDone
-            ? 'border-accent bg-accent text-background'
-            : 'border-border-emphasis bg-transparent text-transparent hover:border-accent'
+            ? 'border-ink bg-accent text-background'
+            : 'border-hairline-strong bg-transparent text-transparent hover:border-ink'
         } transition-colors`}
       >
         {isDone ? '✓' : ''}
       </button>
       <div className="flex-1 min-w-0">
         <p
-          className={`text-sm ${isDone ? 'text-foreground-muted line-through decoration-foreground-subtle' : 'text-foreground'}`}
+          className={`text-sm ${isDone ? 'text-muted-strong line-through decoration-foreground-subtle' : 'text-ink'}`}
         >
           {milestone.title}
         </p>
-        <div className="mt-1 flex flex-wrap gap-3 text-xs text-foreground-subtle">
+        <div className="mt-1 flex flex-wrap gap-3 text-xs text-muted">
           <span>{statusLabel[milestone.status]}</span>
           {milestone.dueAt && (
             <span>

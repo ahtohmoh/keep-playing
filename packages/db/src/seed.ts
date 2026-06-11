@@ -6,7 +6,9 @@
  *
  * Usage: `pnpm db:seed`
  */
-import 'dotenv/config';
+import { config } from 'dotenv';
+config({ path: '../../.env.local' });
+config({ path: '../../.env' });
 import { readFile, readdir } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';

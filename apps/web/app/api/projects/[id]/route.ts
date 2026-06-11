@@ -45,6 +45,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     action: 'project.update',
     targetType: 'project',
     targetId: params.id,
+    projectId: params.id,
     payload: parsed.data,
   });
 
@@ -65,6 +66,7 @@ export async function DELETE(_req: Request, { params }: { params: { id: string }
     action: 'project.archive',
     targetType: 'project',
     targetId: params.id,
+    projectId: params.id,
   });
   return NextResponse.json({ ok: true });
 }

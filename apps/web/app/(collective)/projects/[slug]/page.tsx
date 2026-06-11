@@ -11,6 +11,7 @@ import {
   getMembershipFor,
   getProjectBySlug,
 } from '@/lib/projects';
+import { markProjectSeen } from '@/lib/catch-up';
 import { MilestoneRow } from './milestone-row';
 
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
@@ -26,6 +27,9 @@ export default async function ProjectPage({ params }: { params: { slug: string }
     isProjectContributor: membership.isContributor,
   });
   if (!visible) redirect('/projects');
+
+  // Catch-up marker — this visit resets "since you were here" for this project.
+  await markProjectSeen(user.id, project.id);
 
   const [contributors, milestoneList] = await Promise.all([
     getContributorsForProject(project.id),
@@ -44,14 +48,14 @@ export default async function ProjectPage({ params }: { params: { slug: string }
     <div>
       <Link
         href="/projects"
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← Projects
       </Link>
 
       <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-wide text-foreground-subtle">
+          <p className="text-xs uppercase tracking-wide text-muted">
             {PROJECT_TYPE_LABEL[project.type]}
             {project.artifactNumber != null && (
               <span className="font-mono text-accent ml-2">
@@ -63,31 +67,31 @@ export default async function ProjectPage({ params }: { params: { slug: string }
             {project.title}
           </Heading>
           {project.description && (
-            <p className="mt-2 text-foreground-muted max-w-2xl">{project.description}</p>
+            <p className="mt-2 text-muted-strong max-w-2xl">{project.description}</p>
           )}
         </div>
-        <span className="text-xs uppercase tracking-wide text-foreground-subtle">
+        <span className="text-xs uppercase tracking-wide text-muted">
           {project.status}
         </span>
       </div>
 
-      <nav className="mt-10 flex gap-6 text-sm border-b border-border pb-3">
-        <span className="text-foreground border-b-2 border-accent pb-3 -mb-3">Brief</span>
+      <nav className="mt-10 flex gap-6 text-sm border-b border-hairline pb-3">
+        <span className="text-ink border-b-2 border-ink pb-3 -mb-3">Brief</span>
         <Link
           href={`/projects/${project.slug}/milestones`}
-          className="text-foreground-muted hover:text-foreground transition-colors"
+          className="text-muted-strong hover:text-ink transition-colors"
         >
-          Milestones <span className="text-foreground-subtle">{milestoneList.length}</span>
+          Milestones <span className="text-muted">{milestoneList.length}</span>
         </Link>
         <Link
           href={`/projects/${project.slug}/deliverables`}
-          className="text-foreground-muted hover:text-foreground transition-colors"
+          className="text-muted-strong hover:text-ink transition-colors"
         >
           Deliverables
         </Link>
         <Link
           href={`/projects/${project.slug}/activity`}
-          className="text-foreground-muted hover:text-foreground transition-colors"
+          className="text-muted-strong hover:text-ink transition-colors"
         >
           Activity
         </Link>
@@ -95,7 +99,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
       <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
         <section className="lg:col-span-2">
-          <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-4">
+          <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-4">
             Brief
           </h3>
           {project.brief ? (
@@ -103,7 +107,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
               <p>{String((project.brief as { body?: string }).body ?? '')}</p>
             </Prose>
           ) : (
-            <Prose className="text-foreground-muted">
+            <Prose className="text-muted-strong">
               <p>No brief written yet.</p>
               {canEdit && (
                 <p>
@@ -117,7 +121,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
           {milestoneList.length > 0 && (
             <div className="mt-12">
-              <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-4">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-4">
                 Next up
               </h3>
               <div className="space-y-2">
@@ -130,7 +134,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
         </section>
 
         <aside>
-          <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-4">
+          <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-4">
             Contributors
           </h3>
           <ul className="space-y-3">
@@ -138,11 +142,11 @@ export default async function ProjectPage({ params }: { params: { slug: string }
               <li key={c.userId} className="flex items-center justify-between gap-2">
                 <Link
                   href={`/members/${c.userId}`}
-                  className="text-sm text-foreground hover:text-accent transition-colors"
+                  className="text-sm text-ink hover:text-accent transition-colors"
                 >
                   {c.user.displayName ?? c.user.fullName}
                 </Link>
-                <span className="text-xs text-foreground-subtle uppercase tracking-wide">
+                <span className="text-xs text-muted uppercase tracking-wide">
                   {c.role}
                 </span>
               </li>
@@ -151,10 +155,10 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
           {project.targetShipDate && (
             <div className="mt-10">
-              <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-2">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-2">
                 Target ship date
               </h3>
-              <p className="text-foreground">
+              <p className="text-ink">
                 {new Date(project.targetShipDate).toLocaleDateString('en-GB', {
                   year: 'numeric',
                   month: 'long',
@@ -166,10 +170,10 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
           {project.externalPartnerName && (
             <div className="mt-10">
-              <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-2">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-2">
                 Commissioning partner
               </h3>
-              <p className="text-foreground">{project.externalPartnerName}</p>
+              <p className="text-ink">{project.externalPartnerName}</p>
             </div>
           )}
         </aside>

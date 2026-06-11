@@ -49,7 +49,7 @@ export function BriefEditor({
         {saved && <span className="text-sm text-accent">Saved.</span>}
         <a
           href={`/projects/${slug}`}
-          className="text-sm text-foreground-subtle hover:text-foreground transition-colors ml-auto"
+          className="text-sm text-muted hover:text-ink transition-colors ml-auto"
         >
           Back to project
         </a>

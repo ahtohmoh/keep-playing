@@ -38,6 +38,7 @@ export async function DELETE(
     action: 'project.contributor.remove',
     targetType: 'project',
     targetId: params.id,
+    projectId: params.id,
     payload: { userId: params.userId },
   });
   return NextResponse.json({ ok: true });

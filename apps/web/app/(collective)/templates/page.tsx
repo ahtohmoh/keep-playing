@@ -11,7 +11,7 @@ export default async function TemplatesPage() {
     return (
       <div>
         <Heading level={2}>Templates</Heading>
-        <Prose className="mt-3 text-foreground-muted">
+        <Prose className="mt-3 text-muted-strong">
           <p>The template library isn&apos;t visible to your tier.</p>
         </Prose>
       </div>
@@ -22,7 +22,7 @@ export default async function TemplatesPage() {
   return (
     <div>
       <Heading level={2}>Templates</Heading>
-      <Prose className="mt-3 text-foreground-muted max-w-2xl">
+      <Prose className="mt-3 text-muted-strong max-w-2xl">
         <p>
           Briefs, proposals, concept notes, status reports. Generate from a template, fill the
           fields, get a draft in the practice&apos;s voice.
@@ -34,14 +34,14 @@ export default async function TemplatesPage() {
           <Link
             key={t.id}
             href={`/templates/${t.slug}`}
-            className="block rounded-lg border border-border bg-surface p-5 hover:border-border-emphasis transition-colors"
+            className="block rounded-lg border border-edge card-quiet p-5 hover:border-hairline transition-colors"
           >
-            <p className="text-foreground font-medium">{t.title}</p>
+            <p className="text-ink font-medium">{t.title}</p>
             {t.description && (
-              <p className="mt-1 text-sm text-foreground-muted">{t.description}</p>
+              <p className="mt-1 text-sm text-muted-strong">{t.description}</p>
             )}
             {t.category && (
-              <p className="mt-2 text-xs text-foreground-subtle uppercase tracking-wide">
+              <p className="mt-2 text-xs text-muted uppercase tracking-wide">
                 {t.category}
               </p>
             )}

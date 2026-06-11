@@ -1,4 +1,4 @@
-﻿import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { cn } from '../cn';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -9,21 +9,30 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: Size;
 }
 
+/**
+ * Button — modelled on the AhTohMoh website CTAs.
+ * Primary: ink-on-paper (i.e. white-on-black), uppercase, wide-tracked.
+ * Secondary: hairline-bordered, ink color.
+ * Ghost: text only.
+ * Danger: same primary shape; meaning carried by copy, not colour.
+ */
 const base =
-  'inline-flex items-center justify-center font-medium select-none transition-colors duration-quick ease-standard disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+  'inline-flex items-center justify-center font-sans uppercase select-none transition-colors duration-quick ease-standard disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-accent text-background hover:bg-accent-muted',
+  primary:
+    'bg-accent text-paper border border-transparent hover:bg-ink',
   secondary:
-    'bg-surface text-foreground border border-border hover:border-border-emphasis hover:bg-surface-elevated',
-  ghost: 'text-foreground-muted hover:text-foreground hover:bg-surface',
-  danger: 'bg-danger text-foreground hover:opacity-90',
+    'bg-transparent text-ink border border-hairline-strong hover:border-ink hover:bg-white/5',
+  ghost: 'text-muted-strong hover:text-ink',
+  danger:
+    'bg-transparent text-ink border border-hairline-strong hover:border-ink hover:bg-white/5',
 };
 
 const sizes: Record<Size, string> = {
-  sm: 'h-8 px-3 text-sm rounded-md',
-  md: 'h-10 px-4 text-base rounded-md',
-  lg: 'h-12 px-6 text-lg rounded-lg',
+  sm: 'h-8 px-4 text-[10.5px] tracking-eyebrow font-medium',
+  md: 'h-10 px-5 text-[11px] tracking-eyebrow font-medium',
+  lg: 'h-12 px-7 text-[12px] tracking-eyebrow font-medium',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(

@@ -23,13 +23,13 @@ export default async function PipelinePage() {
       .where(eq(pipelineEntries.correspondentId, user.id))
       .orderBy(desc(pipelineEntries.updatedAt));
   } else {
-    redirect('/');
+    redirect('/home');
   }
 
   return (
     <div>
       <Heading level={2}>Pipeline</Heading>
-      <Prose className="mt-3 text-foreground-muted max-w-2xl">
+      <Prose className="mt-3 text-muted-strong max-w-2xl">
         <p>
           {user.tier === 'founder'
             ? 'Every Correspondent pipeline entry in one view. Acknowledge those that need a signal.'

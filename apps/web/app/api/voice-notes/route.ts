@@ -42,6 +42,7 @@ export async function POST(req: Request) {
     action: 'voicenote.create',
     targetType: 'voice_note',
     targetId: note.id,
+    projectId: parsed.data.targetType === 'project' ? parsed.data.targetId : undefined,
   });
 
   return NextResponse.json({ voiceNote: note, upload });

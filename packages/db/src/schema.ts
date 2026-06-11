@@ -95,10 +95,12 @@ export const users = pgTable(
     craft: text('craft'), // e.g. "Visualisation", "Editorial"
     location: text('location'),
     signedAgreementUrl: text('signed_agreement_url'),
+    timezone: text('timezone').default('Africa/Accra').notNull(), // IANA zone; quiet hours are member-local
     joinedAt: timestamp('joined_at').defaultNow().notNull(),
     onboardingCompletedAt: timestamp('onboarding_completed_at'),
     active: boolean('active').default(true).notNull(),
     passwordHash: text('password_hash'), // Argon2id; null for OAuth-only users (Stage 2)
+    totpSecret: text('totp_secret'), // Founder 2FA; null = not enrolled
     metadata: jsonb('metadata'),
   },
   (t) => ({
@@ -365,6 +367,99 @@ export const pipelineEntries = pgTable(
 );
 
 // ────────────────────────────────────────────────────────────────────
+// Project Seen (catch-up markers)
+// ────────────────────────────────────────────────────────────────────
+// One row per member per project. Powers "since you were here" and unread
+// indicators. Upserted every time a member opens a project surface.
+
+export const projectSeen = pgTable(
+  'project_seen',
+  {
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    projectId: uuid('project_id')
+      .references(() => projects.id, { onDelete: 'cascade' })
+      .notNull(),
+    lastSeenAt: timestamp('last_seen_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.projectId] }),
+  }),
+);
+
+// ────────────────────────────────────────────────────────────────────
+// Brief Revisions (append-only)
+// ────────────────────────────────────────────────────────────────────
+// Every edit to a project's brief lands a revision here before the projects
+// row is updated. "Process visible in the artifact" applies to briefs first.
+
+export const briefRevisions = pgTable(
+  'brief_revisions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    projectId: uuid('project_id')
+      .references(() => projects.id, { onDelete: 'cascade' })
+      .notNull(),
+    brief: jsonb('brief').notNull(), // The brief as it was BEFORE this edit replaced it
+    revisedById: uuid('revised_by_id')
+      .references(() => users.id)
+      .notNull(),
+    note: text('note'), // Optional one-line "why" from the editor
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    projectIdx: index('brief_revisions_project_idx').on(t.projectId),
+  }),
+);
+
+// ────────────────────────────────────────────────────────────────────
+// Decisions (first-class texture)
+// ────────────────────────────────────────────────────────────────────
+// A lightweight decision record per project: what was decided, by whom,
+// and what (if anything) it reverses. Reversals link to the prior decision.
+
+export const decisions = pgTable(
+  'decisions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    projectId: uuid('project_id')
+      .references(() => projects.id, { onDelete: 'cascade' })
+      .notNull(),
+    decidedById: uuid('decided_by_id')
+      .references(() => users.id)
+      .notNull(),
+    title: text('title').notNull(), // "Ship the kente engine as a web demo, not a video"
+    rationale: text('rationale'), // The why, in the decider's words
+    reversesDecisionId: uuid('reverses_decision_id'), // Self-reference; reversal is texture, not shame
+    decidedAt: timestamp('decided_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    projectIdx: index('decisions_project_idx').on(t.projectId),
+  }),
+);
+
+// ────────────────────────────────────────────────────────────────────
+// Seasons (named by the Founder)
+// ────────────────────────────────────────────────────────────────────
+
+export const seasons = pgTable(
+  'seasons',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name').notNull(), // "The Founding Season"
+    theme: text('theme'), // Optional
+    startsAt: timestamp('starts_at').notNull(),
+    endsAt: timestamp('ends_at').notNull(),
+    closingReview: text('closing_review'), // Written at season close
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    startsIdx: index('seasons_starts_idx').on(t.startsAt),
+  }),
+);
+
+// ────────────────────────────────────────────────────────────────────
 // Notifications
 // ────────────────────────────────────────────────────────────────────
 
@@ -382,6 +477,7 @@ export const notifications = pgTable(
     read: boolean('read').default(false).notNull(),
     sentToWhatsApp: boolean('sent_to_whatsapp').default(false).notNull(),
     whatsappSentAt: timestamp('whatsapp_sent_at'),
+    emailSentAt: timestamp('email_sent_at'), // Set when delivered via the email channel
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (t) => ({
@@ -420,12 +516,14 @@ export const auditLog = pgTable(
     action: text('action').notNull(),
     targetType: text('target_type'),
     targetId: uuid('target_id'),
+    projectId: uuid('project_id'), // Set for project-scoped actions; powers catch-up
     payload: jsonb('payload'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (t) => ({
     userIdx: index('audit_log_user_idx').on(t.userId),
     targetIdx: index('audit_log_target_idx').on(t.targetType, t.targetId),
+    projectIdx: index('audit_log_project_idx').on(t.projectId, t.createdAt),
     createdAtIdx: index('audit_log_created_at_idx').on(t.createdAt),
   }),
 );
@@ -522,6 +620,13 @@ export type Session = typeof sessions.$inferSelect;
 export type NewSession = typeof sessions.$inferInsert;
 export type AuditLogEntry = typeof auditLog.$inferSelect;
 export type NewAuditLogEntry = typeof auditLog.$inferInsert;
+export type ProjectSeen = typeof projectSeen.$inferSelect;
+export type BriefRevision = typeof briefRevisions.$inferSelect;
+export type NewBriefRevision = typeof briefRevisions.$inferInsert;
+export type Decision = typeof decisions.$inferSelect;
+export type NewDecision = typeof decisions.$inferInsert;
+export type Season = typeof seasons.$inferSelect;
+export type NewSeason = typeof seasons.$inferInsert;
 
 export type Tier = (typeof tierEnum.enumValues)[number];
 export type ProjectType = (typeof projectTypeEnum.enumValues)[number];

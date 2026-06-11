@@ -42,26 +42,26 @@ export default async function TierStage() {
     <WizardFrame step={2} title="Your tier." next="/onboarding/practice" prev="/onboarding/welcome">
       <div className="flex items-center gap-3">
         <TierBadge tier={user.tier} />
-        <p className="text-foreground">{TIER_LABEL[user.tier]}</p>
+        <p className="text-ink">{TIER_LABEL[user.tier]}</p>
       </div>
 
-      <Prose className="mt-6 text-foreground-muted">
+      <Prose className="mt-6 text-muted-strong">
         <p>{TIER_SHORT_DESCRIPTION[user.tier]}</p>
       </Prose>
 
-      <h2 className="mt-10 text-sm font-medium uppercase tracking-wide text-foreground-subtle">
+      <h2 className="mt-10 text-sm font-medium uppercase tracking-wide text-muted">
         What we expect
       </h2>
-      <ul className="mt-3 space-y-2 list-disc pl-6 text-foreground-muted">
+      <ul className="mt-3 space-y-2 list-disc pl-6 text-muted-strong">
         {expectations.map((e) => (
           <li key={e}>{e}</li>
         ))}
       </ul>
 
-      <h2 className="mt-10 text-sm font-medium uppercase tracking-wide text-foreground-subtle">
+      <h2 className="mt-10 text-sm font-medium uppercase tracking-wide text-muted">
         Your agreement
       </h2>
-      <Prose className="mt-3 text-foreground-muted">
+      <Prose className="mt-3 text-muted-strong">
         {user.signedAgreementUrl ? (
           <p>
             Your signed agreement is{' '}

@@ -43,8 +43,8 @@ export function InviteForm() {
   if (result) {
     return (
       <Card className="mt-8">
-        <p className="text-foreground">Invitation ready.</p>
-        <p className="mt-2 text-sm text-foreground-muted">
+        <p className="text-ink">Invitation ready.</p>
+        <p className="mt-2 text-sm text-muted-strong">
           Share this link directly. It expires{' '}
           {new Date(result.expiresAt).toLocaleDateString('en-GB', {
             year: 'numeric',
@@ -53,7 +53,7 @@ export function InviteForm() {
           })}
           .
         </p>
-        <pre className="mt-4 overflow-x-auto rounded-md bg-background p-3 text-xs text-foreground-muted border border-border">
+        <pre className="mt-4 overflow-x-auto rounded-md bg-paper p-3 text-xs text-muted-strong border border-edge">
           {result.inviteUrl}
         </pre>
         <div className="mt-4 flex gap-3">
@@ -76,23 +76,23 @@ export function InviteForm() {
     <Card className="mt-8">
       <form className="space-y-4" onSubmit={onSubmit}>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Full name</span>
+          <span className="text-sm text-muted-strong">Full name</span>
           <Input name="fullName" required placeholder="e.g. Chineyenwa Okoro-Onu" className="mt-1" />
         </label>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Display name (optional)</span>
+          <span className="text-sm text-muted-strong">Display name (optional)</span>
           <Input name="displayName" placeholder="e.g. Chineyenwa" className="mt-1" />
         </label>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Email</span>
+          <span className="text-sm text-muted-strong">Email</span>
           <Input type="email" name="email" required className="mt-1" />
         </label>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Tier</span>
+          <span className="text-sm text-muted-strong">Tier</span>
           <select
             value={tier}
             onChange={(e) => setTier(e.target.value as Tier)}
-            className="mt-1 h-10 w-full rounded-md border border-border bg-surface px-3 text-base text-foreground focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+            className="mt-1 h-10 w-full rounded-md border border-edge card-quiet px-3 text-base text-ink focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink"
           >
             {TIERS.filter((t) => t !== 'founder').map((t) => (
               <option key={t} value={t}>
@@ -102,11 +102,11 @@ export function InviteForm() {
           </select>
         </label>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Craft (optional)</span>
+          <span className="text-sm text-muted-strong">Craft (optional)</span>
           <Input name="craft" placeholder="e.g. Visualisation" className="mt-1" />
         </label>
 
-        {error && <p className="text-sm text-danger">{error}</p>}
+        {error && <p className="text-sm text-ink">{error}</p>}
 
         <Button type="submit" disabled={submitting}>
           {submitting ? 'Issuing...' : 'Issue invitation'}

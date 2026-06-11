@@ -30,6 +30,6 @@ export async function requireUser() {
 
 export async function requireTier(...allowed: Tier[]) {
   const { session, user } = await requireUser();
-  if (!allowed.includes(user.tier)) redirect('/');
+  if (!allowed.includes(user.tier)) redirect('/home');
   return { session, user };
 }

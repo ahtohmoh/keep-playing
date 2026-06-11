@@ -74,6 +74,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     action: 'milestone.create',
     targetType: 'milestone',
     targetId: ms.id,
+    projectId: params.id,
     payload: { projectId: params.id, title: ms.title },
   });
 

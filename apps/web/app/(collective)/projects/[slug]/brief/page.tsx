@@ -26,7 +26,7 @@ export default async function BriefPage({ params }: { params: { slug: string } }
     <div className="max-w-3xl">
       <Link
         href={`/projects/${project.slug}`}
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← {project.title}
       </Link>

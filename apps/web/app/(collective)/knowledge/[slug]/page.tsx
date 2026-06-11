@@ -22,7 +22,7 @@ export default async function KnowledgeDocPage({ params }: { params: { slug: str
     <article className="max-w-prose">
       <Link
         href="/knowledge"
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← Knowledge
       </Link>
@@ -30,7 +30,7 @@ export default async function KnowledgeDocPage({ params }: { params: { slug: str
         className="mt-6"
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      <p className="mt-12 text-xs text-foreground-subtle">
+      <p className="mt-12 text-xs text-muted">
         Version {doc.version} · Updated{' '}
         {new Date(doc.updatedAt).toLocaleDateString('en-GB', {
           year: 'numeric',

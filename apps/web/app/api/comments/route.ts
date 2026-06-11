@@ -102,6 +102,7 @@ export async function POST(req: Request) {
     action: 'comment.create',
     targetType: parsed.data.targetType,
     targetId: parsed.data.targetId,
+    projectId,
   });
 
   return NextResponse.json({ comment: inserted[0] }, { status: 201 });

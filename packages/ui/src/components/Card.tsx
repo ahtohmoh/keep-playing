@@ -1,14 +1,30 @@
-﻿import { forwardRef, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes } from 'react';
 import { cn } from '../cn';
 
-export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(function Card(
-  { className, ...rest },
+type Variant = 'plain' | 'glass' | 'dashed';
+
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  variant?: Variant;
+}
+
+const variants: Record<Variant, string> = {
+  plain: 'border border-edge bg-paper2',
+  glass: 'glass',
+  dashed: 'dashed-strong bg-paper2/50',
+};
+
+export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
+  { className, variant = 'plain', ...rest },
   ref,
 ) {
   return (
     <div
       ref={ref}
-      className={cn('bg-surface border border-border rounded-lg p-6', className)}
+      className={cn(
+        variants[variant],
+        'px-pad py-pad transition-colors duration-quick ease-standard',
+        className,
+      )}
       {...rest}
     />
   );
@@ -25,23 +41,22 @@ export const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadi
     return (
       <h3
         ref={ref}
-        className={cn('text-lg font-semibold text-foreground', className)}
+        className={cn('font-sans font-medium text-base text-ink', className)}
         {...rest}
       />
     );
   },
 );
 
-export const CardDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
-  function CardDescription({ className, ...rest }, ref) {
-    return (
-      <p ref={ref} className={cn('mt-1 text-sm text-foreground-muted', className)} {...rest} />
-    );
-  },
-);
+export const CardDescription = forwardRef<
+  HTMLParagraphElement,
+  HTMLAttributes<HTMLParagraphElement>
+>(function CardDescription({ className, ...rest }, ref) {
+  return <p ref={ref} className={cn('mt-1 text-sm text-muted', className)} {...rest} />;
+});
 
 export const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function CardContent({ className, ...rest }, ref) {
-    return <div ref={ref} className={cn('text-foreground', className)} {...rest} />;
+    return <div ref={ref} className={cn('text-muted-strong', className)} {...rest} />;
   },
 );

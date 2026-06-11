@@ -117,8 +117,8 @@ export function VoiceNoteRecorder({
     <Card>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h3 className="text-sm font-medium text-foreground">Voice note</h3>
-          <p className="mt-1 text-xs text-foreground-muted">
+          <h3 className="text-sm font-medium text-ink">Voice note</h3>
+          <p className="mt-1 text-xs text-muted-strong">
             {status === 'recording'
               ? 'Recording. Stop when you&apos;re done.'
               : status === 'uploading'
@@ -149,7 +149,7 @@ export function VoiceNoteRecorder({
       </div>
 
       {transcription && (
-        <div className="mt-4 rounded-md border border-border bg-background p-3 text-sm text-foreground-muted whitespace-pre-wrap">
+        <div className="mt-4 rounded-md border border-edge bg-paper p-3 text-sm text-muted-strong whitespace-pre-wrap">
           {transcription}
         </div>
       )}

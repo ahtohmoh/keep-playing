@@ -28,8 +28,8 @@ export default async function FirstProjectStage() {
     >
       {hasProjects ? (
         <>
-          <Prose className="text-foreground-muted">
-            <p className="text-foreground">
+          <Prose className="text-muted-strong">
+            <p className="text-ink">
               You are joining {first ? `"${first.p.title}"` : 'a project'}. Meet the project before
               the platform. The brief, the milestones, the team — they tell you more about how
               AhTohMoh works than any tour will.
@@ -42,32 +42,32 @@ export default async function FirstProjectStage() {
                 <Link
                   href={`/projects/${p.slug}`}
                   target="_blank"
-                  className="block rounded-lg border border-border bg-surface p-5 hover:border-border-emphasis transition-colors"
+                  className="block rounded-lg border border-edge card-quiet p-5 hover:border-hairline transition-colors"
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-3">
-                    <p className="text-foreground font-medium">{p.title}</p>
-                    <span className="text-xs uppercase tracking-wide text-foreground-subtle">
+                    <p className="text-ink font-medium">{p.title}</p>
+                    <span className="text-xs uppercase tracking-wide text-muted">
                       {role}
                     </span>
                   </div>
-                  <p className="mt-2 text-xs text-foreground-subtle">
+                  <p className="mt-2 text-xs text-muted">
                     {PROJECT_TYPE_LABEL[p.type]}
                   </p>
                   {p.description && (
-                    <p className="mt-2 text-sm text-foreground-muted">{p.description}</p>
+                    <p className="mt-2 text-sm text-muted-strong">{p.description}</p>
                   )}
                 </Link>
               </li>
             ))}
           </ul>
 
-          <Prose className="mt-10 text-foreground-muted">
+          <Prose className="mt-10 text-muted-strong">
             <p>Open it. Read the brief. Then come back.</p>
           </Prose>
         </>
       ) : (
-        <Prose className="text-foreground-muted">
-          <p className="text-foreground">You are not assigned to a project yet.</p>
+        <Prose className="text-muted-strong">
+          <p className="text-ink">You are not assigned to a project yet.</p>
           <p>
             That is fine. AhTohMoh will be in touch when there is work for your craft. In the
             meantime, the knowledge base is open to you and the Collective is yours to meet.

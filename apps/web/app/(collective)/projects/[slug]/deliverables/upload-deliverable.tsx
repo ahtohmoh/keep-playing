@@ -58,7 +58,7 @@ export function UploadDeliverable({ projectId }: { projectId: string }) {
 
   return (
     <Card className="mt-10">
-      <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle">
+      <h3 className="text-sm font-medium uppercase tracking-wide text-muted">
         Upload a deliverable
       </h3>
       <form className="mt-4 space-y-3" onSubmit={onSubmit}>
@@ -67,9 +67,9 @@ export function UploadDeliverable({ projectId }: { projectId: string }) {
         <input
           type="file"
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          className="block w-full text-sm text-foreground file:mr-4 file:rounded-md file:border-0 file:bg-surface-elevated file:px-4 file:py-2 file:text-sm file:text-foreground hover:file:bg-border"
+          className="block w-full text-sm text-ink file:mr-4 file:rounded-md file:border-0 file:bg-paper2 file:px-4 file:py-2 file:text-sm file:text-ink hover:file:bg-border"
         />
-        {error && <p className="text-sm text-danger">{error}</p>}
+        {error && <p className="text-sm text-ink">{error}</p>}
         <Button type="submit" disabled={submitting || !file}>
           {submitting ? 'Uploading...' : 'Upload'}
         </Button>

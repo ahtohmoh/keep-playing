@@ -25,7 +25,7 @@ export default function AcceptInvitePage({
 
   return (
     <main className="min-h-dvh flex flex-col">
-      <header className="border-b border-border">
+      <header className="border-b border-hairline">
         <div className="mx-auto max-w-5xl px-6 py-5">
           <Link href="/" className="font-serif text-xl tracking-tight">
             Keep Playing
@@ -34,15 +34,15 @@ export default function AcceptInvitePage({
       </header>
 
       <section className="flex-1 mx-auto w-full max-w-md px-6 py-20">
-        <p className="text-foreground-muted text-sm">Invitation for</p>
+        <p className="text-muted-strong text-sm">Invitation for</p>
         <Heading level={2} className="mt-1">
           {decoded.payload.fullName}
         </Heading>
-        <p className="mt-1 text-foreground-muted">{decoded.payload.email}</p>
+        <p className="mt-1 text-muted-strong">{decoded.payload.email}</p>
 
-        <Prose className="mt-6 text-foreground-muted">
+        <Prose className="mt-6 text-muted-strong">
           <p>
-            <span className="text-foreground">
+            <span className="text-ink">
               You&apos;re joining as a {TIER_LABEL[decoded.payload.tier]}.
             </span>{' '}
             {TIER_SHORT_DESCRIPTION[decoded.payload.tier]}
@@ -56,7 +56,7 @@ export default function AcceptInvitePage({
           <form action="/api/auth/accept-invite" method="post" className="space-y-4">
             <input type="hidden" name="token" value={token} />
             <label className="block">
-              <span className="text-sm text-foreground-muted">Password</span>
+              <span className="text-sm text-muted-strong">Password</span>
               <Input
                 type="password"
                 name="password"
@@ -80,7 +80,7 @@ export default function AcceptInvitePage({
 function FrameMessage({ title, body }: { title: string; body: string }) {
   return (
     <main className="min-h-dvh flex flex-col">
-      <header className="border-b border-border">
+      <header className="border-b border-hairline">
         <div className="mx-auto max-w-5xl px-6 py-5">
           <Link href="/" className="font-serif text-xl tracking-tight">
             Keep Playing
@@ -89,7 +89,7 @@ function FrameMessage({ title, body }: { title: string; body: string }) {
       </header>
       <section className="flex-1 mx-auto w-full max-w-md px-6 py-20">
         <Heading level={2}>{title}</Heading>
-        <Prose className="mt-3 text-foreground-muted">
+        <Prose className="mt-3 text-muted-strong">
           <p>{body}</p>
         </Prose>
       </section>

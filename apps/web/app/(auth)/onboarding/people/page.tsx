@@ -17,8 +17,8 @@ export default async function PeopleStage() {
 
   return (
     <WizardFrame step={4} title="The people." next="/onboarding/project" prev="/onboarding/practice">
-      <Prose className="text-foreground-muted">
-        <p className="text-foreground">The Collective is small and intentional.</p>
+      <Prose className="text-muted-strong">
+        <p className="text-ink">The Collective is small and intentional.</p>
         <p>
           You will work with these people — sometimes closely, sometimes at a distance. Each carries
           a tier, a craft, and a relationship with the practice.
@@ -27,28 +27,28 @@ export default async function PeopleStage() {
 
       {founder && (
         <section className="mt-10">
-          <h2 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+          <h2 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
             Founder
           </h2>
           <Link
             href={`/members/${founder.id}`}
             target="_blank"
-            className="block rounded-lg border border-accent/40 bg-surface-elevated p-5 hover:border-accent transition-colors"
+            className="block rounded-lg border border-edge-strong bg-paper2 p-5 hover:border-ink transition-colors"
           >
             <div className="flex items-center justify-between gap-3">
-              <p className="text-foreground font-medium text-lg">
+              <p className="text-ink font-medium text-lg">
                 {founder.displayName ?? founder.fullName}
               </p>
               <TierBadge tier="founder" />
             </div>
-            {founder.craft && <p className="mt-2 text-sm text-foreground-muted">{founder.craft}</p>}
+            {founder.craft && <p className="mt-2 text-sm text-muted-strong">{founder.craft}</p>}
           </Link>
         </section>
       )}
 
       {others.length > 0 && (
         <section className="mt-10">
-          <h2 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+          <h2 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
             The rest of the Collective
           </h2>
           <ul className="space-y-2">
@@ -57,11 +57,11 @@ export default async function PeopleStage() {
                 <Link
                   href={`/members/${m.id}`}
                   target="_blank"
-                  className="flex items-center justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3 hover:border-border-emphasis transition-colors"
+                  className="flex items-center justify-between gap-3 rounded-md border border-edge card-quiet px-4 py-3 hover:border-hairline transition-colors"
                 >
                   <div>
-                    <p className="text-foreground">{m.displayName ?? m.fullName}</p>
-                    {m.craft && <p className="mt-0.5 text-xs text-foreground-subtle">{m.craft}</p>}
+                    <p className="text-ink">{m.displayName ?? m.fullName}</p>
+                    {m.craft && <p className="mt-0.5 text-xs text-muted">{m.craft}</p>}
                   </div>
                   <TierBadge tier={m.tier} />
                 </Link>
@@ -71,7 +71,7 @@ export default async function PeopleStage() {
         </section>
       )}
 
-      <Prose className="mt-10 text-foreground-muted">
+      <Prose className="mt-10 text-muted-strong">
         <p>
           When you open Keep Playing in everyday work, this is where you find each other. Voice
           notes, comments, and shared projects do the rest.

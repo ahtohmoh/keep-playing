@@ -7,37 +7,317 @@
     color-scheme: dark;
   }
 
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   html,
   body {
-    @apply bg-background text-foreground;
+    @apply bg-bg text-ink;
     font-family: theme('fontFamily.sans');
-    font-feature-settings:
-      'cv02',
-      'cv03',
-      'cv04',
-      'cv11';
+    font-weight: 300;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Scrollless platform — the document does not scroll. Each Frame scrolls
+       internally with the .nice-scroll thin scrollbar. */
+    height: 100%;
+    overflow: hidden;
   }
 
-  /* Editorial display — earned, not reflexive. */
-  .display-serif {
-    font-family: theme('fontFamily.serif');
-    font-feature-settings:
-      'ss01',
-      'ss02';
+  :focus {
+    outline: none;
   }
-
-  /* Considered selection */
-  ::selection {
-    background-color: theme('colors.accent');
-    color: theme('colors.background');
-  }
-
-  /* Generous focus ring */
   :focus-visible {
     outline: 2px solid theme('colors.accent');
     outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  [role='button'] {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: theme('colors.accent');
+    color: theme('colors.bg');
+  }
+
+  /* Sketch background — public surfaces only (landing, login, onboarding). */
+  .sketch-bg {
+    position: fixed;
+    inset: 0;
+    background-image: url('/brand/main-back.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.92;
+  }
+
+  /* Grid background — atmospheric backdrop for authed surfaces.
+     Piqabu's GridBackground translated to CSS. */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(245, 243, 235, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(245, 243, 235, 0.04) 1px, transparent 1px);
+    background-size: clamp(48px, 4vw, 80px) clamp(48px, 4vw, 80px);
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+}
+
+@layer components {
+  /* Page shell — 100dvh, no scroll. Header + content + footer. */
+  .page-shell {
+    position: relative;
+    z-index: 1;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 0;
+  }
+
+  /* Frame primitive — hairline-bordered translucent panel. Scrolls internally. */
+  .frame {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid theme('colors.hairline-strong');
+    background: theme('colors.frame-bg');
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    min-height: 0;
+    overflow: hidden;
+  }
+  .frame-head {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(14px, 1.6vw, 24px) theme('spacing.pad');
+    border-bottom: 1px solid theme('colors.hairline');
+    gap: 16px;
+  }
+  .frame-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: theme('spacing.pad');
+    overflow-y: auto;
+  }
+  .frame-nav {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(12px, 1.4vw, 20px) theme('spacing.pad');
+    border-top: 1px solid theme('colors.hairline');
+    gap: 16px;
+  }
+
+  /* Glass panel — Piqabu LiveGlassPanel style. Lifted card with heavier blur. */
+  .glass {
+    background: theme('colors.glass-bg');
+    border: 1px solid theme('colors.edge');
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    border-radius: theme('borderRadius.glass');
+  }
+
+  /* Dashed edge — Piqabu's draft/optional texture. */
+  .dashed {
+    border: 1px dashed theme('colors.edge');
+  }
+  .dashed-strong {
+    border: 1px dashed theme('colors.hairline');
+  }
+
+  /* Eyebrow — wide-tracked sans-uppercase. The AhTohMoh signature label. */
+  .eyebrow {
+    font-family: theme('fontFamily.sans');
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: theme('colors.muted');
+  }
+
+  /* Pencil — Piqabu's LABEL_PENCIL. Mono uppercase, heavier presence. */
+  .pencil {
+    font-family: theme('fontFamily.mono');
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: theme('colors.muted-strong');
+  }
+  .pencil-faint {
+    font-family: theme('fontFamily.mono');
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: theme('colors.faint');
+  }
+
+  /* Mono metadata — for IDs, timestamps, counts, version numbers. */
+  .meta {
+    font-family: theme('fontFamily.mono');
+    font-size: 11px;
+    color: theme('colors.muted');
+    font-feature-settings: 'tnum';
+  }
+
+  /* Caption — Cormorant Garamond italic, used for pull-quotes. */
+  .caption {
+    font-family: theme('fontFamily.serif');
+    font-style: italic;
+    font-weight: 500;
+    color: theme('colors.muted-strong');
+  }
+
+  /* Frame title — Ink Free handwritten. */
+  .frame-title {
+    font-family: theme('fontFamily.ink');
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1;
+    text-transform: capitalize;
+    color: theme('colors.ink');
+  }
+
+  /* CTAs */
+  .cta-primary {
+    font-family: theme('fontFamily.sans');
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: theme('colors.bg');
+    background: theme('colors.accent');
+    padding: 11px 22px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 180ms cubic-bezier(0.2, 0, 0, 1);
+    display: inline-block;
+    position: relative;
+  }
+  .cta-primary:hover {
+    background: theme('colors.ink-strong');
+    transform: translateY(-1px);
+  }
+  .cta-primary:active {
+    transform: translateY(0);
+  }
+
+  .cta-secondary {
+    font-family: theme('fontFamily.sans');
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: theme('colors.ink');
+    background: transparent;
+    border: 1px solid theme('colors.hairline-strong');
+    padding: 10px 22px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 180ms cubic-bezier(0.2, 0, 0, 1);
+    display: inline-block;
+  }
+  .cta-secondary:hover {
+    border-color: theme('colors.ink');
+    background: rgba(245, 243, 235, 0.05);
+  }
+
+  /* Pulse dot — for "live" indicators (presence, recording, processing). */
+  .pulse-dot {
+    position: relative;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: theme('colors.live');
+    display: inline-block;
+  }
+  .pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 9999px;
+    background: theme('colors.live');
+    opacity: 0.5;
+    animation: pulse-loud 1300ms ease-in-out infinite;
+  }
+
+  /* Underline-on-hover — eyebrow links and quiet text links. */
+  .underline-grow {
+    position: relative;
+    text-decoration: none;
+  }
+  .underline-grow::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .underline-grow:hover::after,
+  .underline-grow:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Thin scrollbar — matches the AhTohMoh website. */
+  .nice-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .nice-scroll::-webkit-scrollbar-thumb {
+    background: theme('colors.hairline');
+    border-radius: 2px;
+  }
+  .nice-scroll::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.hairline-strong');
+  }
+  .nice-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .nice-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.hairline') transparent;
+  }
+
+  /* Fade-up entrance for sections appearing in a Frame. */
+  .reveal {
+    animation: fade-up 320ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+  .reveal-slow {
+    animation: fade-up 550ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  /* Live-state ring — hover affordance for clickable cards. */
+  .card-quiet {
+    border: 1px solid theme('colors.edge');
+    background: theme('colors.paper2');
+    transition: all 220ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .card-quiet:hover {
+    border-color: theme('colors.hairline-strong');
+    transform: translateY(-1px);
   }
 }

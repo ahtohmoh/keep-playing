@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { Heading } from '@keep-playing/ui';
+import { Eyebrow } from '@keep-playing/ui';
 
 export type WizardStep = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -31,18 +31,18 @@ export function WizardFrame({
   return (
     <article>
       <Progress step={step} />
-      <p className="mt-10 text-xs uppercase tracking-wide text-foreground-subtle">
-        Stage {step} of 6
-      </p>
-      <Heading level={1} variant="display" className="mt-2 text-balance">
+      <div className="mt-10">
+        <Eyebrow>Stage {step} of 6</Eyebrow>
+      </div>
+      <h1 className="mt-3 font-ink text-[clamp(34px,4vw,56px)] leading-[1] text-ink capitalize">
         {title}
-      </Heading>
-      <div className="mt-10">{children}</div>
-      <div className="mt-14 flex items-center justify-between">
+      </h1>
+      <div className="mt-12">{children}</div>
+      <div className="mt-16 flex items-center justify-between border-t border-hairline pt-6">
         {prev ? (
           <Link
             href={prev}
-            className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+            className="text-[11px] uppercase tracking-eyebrow text-muted hover:text-ink transition-colors"
           >
             ← Back
           </Link>
@@ -50,10 +50,7 @@ export function WizardFrame({
           <span />
         )}
         {next && (
-          <Link
-            href={next}
-            className="inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-base font-medium text-background hover:bg-accent-muted transition-colors"
-          >
+          <Link href={next} className="cta-primary">
             {nextLabel}
           </Link>
         )}
@@ -69,12 +66,8 @@ function Progress({ step }: { step: WizardStep }) {
         <li
           key={n}
           aria-current={n === step ? 'step' : undefined}
-          className={`h-1 rounded-full ${
-            n < step
-              ? 'bg-accent'
-              : n === step
-                ? 'bg-accent/70'
-                : 'bg-border'
+          className={`h-px ${
+            n < step ? 'bg-ink' : n === step ? 'bg-ink/70' : 'bg-hairline'
           }`}
           title={STAGE_TITLES[n]}
         />

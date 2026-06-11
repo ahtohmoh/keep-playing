@@ -1,13 +1,28 @@
 @import '@keep-playing/ui/styles.css';
 
-/* App-specific overrides go below. Token additions belong in packages/ui. */
-
 html,
 body {
-  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+  font-family:
+    var(--font-sans),
+    'Bricolage Grotesque',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
-.display-serif,
-.font-serif {
-  font-family: var(--font-serif), Fraunces, Georgia, serif;
+.font-serif,
+.caption {
+  font-family: var(--font-serif), 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-ink,
+.frame-title {
+  font-family: var(--font-ink), 'Ink Free', 'Bradley Hand', cursive;
+}
+
+.font-mono,
+.meta,
+.pencil,
+.pencil-faint {
+  font-family: var(--font-mono), 'Space Mono', ui-monospace, monospace;
 }

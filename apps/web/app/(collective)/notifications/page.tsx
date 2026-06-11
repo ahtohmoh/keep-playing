@@ -21,7 +21,7 @@ export default async function NotificationsPage() {
         <Heading level={2}>Notifications</Heading>
         {unread > 0 && <MarkAllRead />}
       </div>
-      <Prose className="mt-3 text-foreground-muted">
+      <Prose className="mt-3 text-muted-strong">
         <p>
           {rows.length === 0
             ? 'Nothing here yet.'
@@ -34,19 +34,19 @@ export default async function NotificationsPage() {
           <li
             key={n.id}
             className={`rounded-md border p-4 ${
-              n.read ? 'border-border bg-surface' : 'border-accent/40 bg-surface-elevated'
+              n.read ? 'border-hairline card-quiet' : 'border-hairline-strong bg-paper2'
             }`}
           >
             <div className="flex items-baseline justify-between gap-3">
-              <p className="text-sm font-medium text-foreground">{n.title}</p>
-              <span className="text-xs text-foreground-subtle">
+              <p className="text-sm font-medium text-ink">{n.title}</p>
+              <span className="text-xs text-muted">
                 {new Date(n.createdAt).toLocaleDateString('en-GB', {
                   month: 'short',
                   day: 'numeric',
                 })}
               </span>
             </div>
-            {n.body && <p className="mt-1 text-sm text-foreground-muted">{n.body}</p>}
+            {n.body && <p className="mt-1 text-sm text-muted-strong">{n.body}</p>}
             {n.link && (
               <a
                 href={n.link}

@@ -24,13 +24,13 @@ async function complete(req: Request) {
         title: `${user.displayName ?? user.fullName} just completed onboarding.`,
         body: 'Welcome them in.',
         link: `/members/${user.id}`,
-        sendWhatsApp: true,
+        sendEmail: true, sendWhatsApp: true,
       });
     }
 
     await audit({ userId: user.id, action: 'onboarding.complete' });
   }
-  return NextResponse.redirect(new URL('/', req.url), { status: 303 });
+  return NextResponse.redirect(new URL('/home', req.url), { status: 303 });
 }
 
 export const GET = complete;

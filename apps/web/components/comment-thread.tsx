@@ -54,19 +54,19 @@ export function CommentThread({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle">
+      <h3 className="text-sm font-medium uppercase tracking-wide text-muted">
         Conversation
       </h3>
       {loading ? (
-        <p className="text-sm text-foreground-subtle">Loading...</p>
+        <p className="text-sm text-muted">Loading...</p>
       ) : list.length === 0 ? (
-        <p className="text-sm text-foreground-muted">No comments yet.</p>
+        <p className="text-sm text-muted-strong">No comments yet.</p>
       ) : (
         <ul className="space-y-3">
           {list.map((c) => (
-            <li key={c.id} className="rounded-md border border-border bg-surface px-4 py-3">
-              <p className="text-sm text-foreground whitespace-pre-wrap">{c.body}</p>
-              <p className="mt-2 text-xs text-foreground-subtle">
+            <li key={c.id} className="rounded-md border border-edge card-quiet px-4 py-3">
+              <p className="text-sm text-ink whitespace-pre-wrap">{c.body}</p>
+              <p className="mt-2 text-xs text-muted">
                 {new Date(c.createdAt).toLocaleString()}
               </p>
             </li>

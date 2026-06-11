@@ -8,6 +8,20 @@
       "when": 1779274448026,
       "tag": "0000_secret_tana_nile",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781188401098,
+      "tag": "0001_elite_kitty_pryde",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781188662468,
+      "tag": "0002_outstanding_unicorn",
+      "breakpoints": true
     }
   ]
 }

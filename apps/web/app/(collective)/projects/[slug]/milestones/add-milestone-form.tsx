@@ -30,7 +30,7 @@ export function AddMilestoneForm({ projectId }: { projectId: string }) {
 
   return (
     <Card className="mt-10">
-      <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle">
+      <h3 className="text-sm font-medium uppercase tracking-wide text-muted">
         Add a milestone
       </h3>
       <form className="mt-4 space-y-3" onSubmit={onSubmit}>
@@ -38,7 +38,7 @@ export function AddMilestoneForm({ projectId }: { projectId: string }) {
         <Textarea name="description" placeholder="Notes (optional)" />
         <div className="flex flex-wrap items-end gap-3">
           <label className="flex-1 block">
-            <span className="text-xs text-foreground-subtle">Due (optional)</span>
+            <span className="text-xs text-muted">Due (optional)</span>
             <Input type="date" name="dueAt" className="mt-1" />
           </label>
           <Button type="submit" disabled={submitting}>

@@ -67,7 +67,7 @@ export async function POST(req: Request) {
 
   // If submitted via HTML form, redirect; else JSON.
   if (ct.includes('application/x-www-form-urlencoded') || ct.includes('multipart/form-data')) {
-    const dest = user.onboardingCompletedAt ? '/' : '/onboarding/welcome';
+    const dest = user.onboardingCompletedAt ? '/home' : '/onboarding/welcome';
     return NextResponse.redirect(new URL(dest, req.url), { status: 303 });
   }
 

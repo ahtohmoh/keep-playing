@@ -23,7 +23,7 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
       title: 'Pipeline entry acknowledged.',
       body: updated[0].counterpartyName,
       link: '/pipeline',
-      sendWhatsApp: true,
+      sendEmail: true, sendWhatsApp: true,
     });
   }
   await audit({

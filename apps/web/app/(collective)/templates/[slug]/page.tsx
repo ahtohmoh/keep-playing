@@ -18,7 +18,7 @@ export default async function TemplatePage({ params }: { params: { slug: string 
     <div className="max-w-3xl">
       <Link
         href="/templates"
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← Templates
       </Link>
@@ -26,7 +26,7 @@ export default async function TemplatePage({ params }: { params: { slug: string 
         {t.title}
       </Heading>
       {t.description && (
-        <Prose className="mt-3 text-foreground-muted">
+        <Prose className="mt-3 text-muted-strong">
           <p>{t.description}</p>
         </Prose>
       )}

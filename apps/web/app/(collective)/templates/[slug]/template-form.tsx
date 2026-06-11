@@ -55,7 +55,7 @@ export function TemplateForm({ slug, schema }: { slug: string; schema: TemplateS
         if (field.type === 'string') {
           return (
             <label key={name} className="block">
-              <span className="text-sm text-foreground-muted">
+              <span className="text-sm text-muted-strong">
                 {field.label}
                 {required && <span className="text-accent ml-1">*</span>}
               </span>
@@ -81,7 +81,7 @@ export function TemplateForm({ slug, schema }: { slug: string; schema: TemplateS
         const items = (data[name] as string[] | undefined) ?? [];
         return (
           <div key={name}>
-            <span className="text-sm text-foreground-muted">
+            <span className="text-sm text-muted-strong">
               {field.label}
               {required && <span className="text-accent ml-1">*</span>}
             </span>
@@ -90,13 +90,13 @@ export function TemplateForm({ slug, schema }: { slug: string; schema: TemplateS
                 {items.map((it, i) => (
                   <li
                     key={i}
-                    className="flex items-center justify-between gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm"
+                    className="flex items-center justify-between gap-2 rounded-md border border-edge card-quiet px-3 py-2 text-sm"
                   >
                     <span>{it}</span>
                     <button
                       type="button"
                       onClick={() => removeArrayItem(name, i)}
-                      className="text-foreground-subtle hover:text-danger"
+                      className="text-muted hover:text-ink"
                     >
                       Remove
                     </button>
@@ -124,7 +124,7 @@ export function TemplateForm({ slug, schema }: { slug: string; schema: TemplateS
         );
       })}
 
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-ink">{error}</p>}
 
       <Button onClick={generate} disabled={busy}>
         {busy ? 'Generating...' : 'Generate'}
@@ -133,7 +133,7 @@ export function TemplateForm({ slug, schema }: { slug: string; schema: TemplateS
       {generated && (
         <Card>
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle">
+            <h3 className="text-sm font-medium uppercase tracking-wide text-muted">
               Generated
             </h3>
             <Button
@@ -144,7 +144,7 @@ export function TemplateForm({ slug, schema }: { slug: string; schema: TemplateS
               Copy
             </Button>
           </div>
-          <pre className="mt-4 whitespace-pre-wrap font-mono text-sm text-foreground-muted">
+          <pre className="mt-4 whitespace-pre-wrap font-mono text-sm text-muted-strong">
             {generated}
           </pre>
         </Card>

@@ -1,16 +1,33 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Fraunces } from 'next/font/google';
+import localFont from 'next/font/local';
+import { Bricolage_Grotesque, Cormorant_Garamond, Space_Mono } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  weight: ['300', '400', '500', '600'],
 });
 
-const fraunces = Fraunces({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   variable: '--font-serif',
+  display: 'swap',
+  style: ['normal', 'italic'],
+  weight: ['400', '500'],
+});
+
+const spaceMono = Space_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+  weight: ['400', '700'],
+});
+
+const inkFree = localFont({
+  src: '../public/brand/inkfree.ttf',
+  variable: '--font-ink',
   display: 'swap',
 });
 
@@ -26,15 +43,19 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0A0A0A',
+  themeColor: '#060709',
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
-      <body className="bg-background text-foreground antialiased">{children}</body>
+    <html
+      lang="en"
+      className={`${bricolage.variable} ${cormorant.variable} ${inkFree.variable} ${spaceMono.variable}`}
+    >
+      <body className="bg-bg text-ink">{children}</body>
     </html>
   );
 }

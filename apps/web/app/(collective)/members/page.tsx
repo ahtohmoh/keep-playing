@@ -22,7 +22,7 @@ export default async function MembersPage() {
   return (
     <div>
       <Heading level={2}>The Collective</Heading>
-      <Prose className="mt-3 text-foreground-muted">
+      <Prose className="mt-3 text-muted-strong">
         <p>
           {rows.length} {rows.length === 1 ? 'member' : 'members'}. People appear here in
           proportion to the depth of their relationship with the practice.
@@ -35,28 +35,28 @@ export default async function MembersPage() {
           if (list.length === 0) return null;
           return (
             <section key={tier}>
-              <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-4">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-4">
                 {TIER_LABEL[tier]}
-                <span className="ml-2 text-foreground-subtle">· {list.length}</span>
+                <span className="ml-2 text-muted">· {list.length}</span>
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {list.map((m) => (
                   <Link
                     key={m.id}
                     href={`/members/${m.id}`}
-                    className="block rounded-lg border border-border bg-surface p-5 hover:border-border-emphasis transition-colors duration-quick"
+                    className="block rounded-lg border border-edge card-quiet p-5 hover:border-hairline transition-colors duration-quick"
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <span className="font-medium text-foreground">
+                      <span className="font-medium text-ink">
                         {m.displayName ?? m.fullName}
                       </span>
                       <TierBadge tier={m.tier} />
                     </div>
                     {m.craft && (
-                      <p className="mt-2 text-sm text-foreground-muted">{m.craft}</p>
+                      <p className="mt-2 text-sm text-muted-strong">{m.craft}</p>
                     )}
                     {m.location && (
-                      <p className="mt-1 text-xs text-foreground-subtle">{m.location}</p>
+                      <p className="mt-1 text-xs text-muted">{m.location}</p>
                     )}
                   </Link>
                 ))}

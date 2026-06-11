@@ -17,7 +17,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
     <div>
       <Link
         href="/members"
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← The Collective
       </Link>
@@ -26,15 +26,15 @@ export default async function MemberPage({ params }: { params: { id: string } })
         <div>
           <Heading level={2}>{m.displayName ?? m.fullName}</Heading>
           {m.displayName && m.fullName !== m.displayName && (
-            <p className="mt-1 text-foreground-muted">{m.fullName}</p>
+            <p className="mt-1 text-muted-strong">{m.fullName}</p>
           )}
         </div>
         <TierBadge tier={m.tier} />
       </div>
 
-      <Prose className="mt-6 text-foreground-muted max-w-2xl">
+      <Prose className="mt-6 text-muted-strong max-w-2xl">
         <p>
-          <span className="text-foreground">{TIER_LABEL[m.tier]}.</span>{' '}
+          <span className="text-ink">{TIER_LABEL[m.tier]}.</span>{' '}
           {TIER_SHORT_DESCRIPTION[m.tier]}
         </p>
       </Prose>
@@ -42,19 +42,19 @@ export default async function MemberPage({ params }: { params: { id: string } })
       <dl className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 text-sm">
         {m.craft && (
           <div>
-            <dt className="text-foreground-subtle uppercase tracking-wide text-xs">Craft</dt>
-            <dd className="mt-1 text-foreground">{m.craft}</dd>
+            <dt className="text-muted uppercase tracking-wide text-xs">Craft</dt>
+            <dd className="mt-1 text-ink">{m.craft}</dd>
           </div>
         )}
         {m.location && (
           <div>
-            <dt className="text-foreground-subtle uppercase tracking-wide text-xs">Location</dt>
-            <dd className="mt-1 text-foreground">{m.location}</dd>
+            <dt className="text-muted uppercase tracking-wide text-xs">Location</dt>
+            <dd className="mt-1 text-ink">{m.location}</dd>
           </div>
         )}
         <div>
-          <dt className="text-foreground-subtle uppercase tracking-wide text-xs">Joined</dt>
-          <dd className="mt-1 text-foreground">
+          <dt className="text-muted uppercase tracking-wide text-xs">Joined</dt>
+          <dd className="mt-1 text-ink">
             {new Date(m.joinedAt).toLocaleDateString('en-GB', {
               year: 'numeric',
               month: 'long',
@@ -66,7 +66,7 @@ export default async function MemberPage({ params }: { params: { id: string } })
 
       {m.bio && (
         <section className="mt-10 max-w-2xl">
-          <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+          <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
             About
           </h3>
           <Prose>
@@ -75,8 +75,8 @@ export default async function MemberPage({ params }: { params: { id: string } })
         </section>
       )}
 
-      <section className="mt-14 border-t border-border pt-10">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+      <section className="mt-14 border-t border-hairline pt-10">
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
           Legacy Plot
         </h3>
         <LegacyPlot userId={m.id} isSelf={isSelf} fallbackName={m.displayName ?? m.fullName} />
@@ -103,7 +103,7 @@ async function LegacyPlot({
 
   if (rows.length === 0) {
     return (
-      <Prose className="text-foreground-muted max-w-2xl">
+      <Prose className="text-muted-strong max-w-2xl">
         <p>
           {isSelf ? 'Your' : `${fallbackName}'s`} Plot will grow with each project shipped, each
           artifact touched, each contribution made.
@@ -118,10 +118,10 @@ async function LegacyPlot({
         <Link
           key={p.id}
           href={`/projects/${p.slug}`}
-          className="block rounded-md border border-border bg-surface px-4 py-3 hover:border-border-emphasis transition-colors"
+          className="block rounded-md border border-edge card-quiet px-4 py-3 hover:border-hairline transition-colors"
         >
           <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <p className="text-foreground">
+            <p className="text-ink">
               {p.artifactNumber != null && (
                 <span className="font-mono text-accent mr-2">
                   · {String(p.artifactNumber).padStart(3, '0')}
@@ -129,11 +129,11 @@ async function LegacyPlot({
               )}
               {p.title}
             </p>
-            <span className="text-xs uppercase tracking-wide text-foreground-subtle">
+            <span className="text-xs uppercase tracking-wide text-muted">
               {role} · {p.status}
             </span>
           </div>
-          <p className="mt-1 text-xs text-foreground-subtle">
+          <p className="mt-1 text-xs text-muted">
             {PROJECT_TYPE_LABEL[p.type]} ·{' '}
             {new Date(joinedAt).toLocaleDateString('en-GB', {
               year: 'numeric',

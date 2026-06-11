@@ -24,8 +24,8 @@ export default async function PracticeStage() {
 
   return (
     <WizardFrame step={3} title="The practice." next="/onboarding/people" prev="/onboarding/tier">
-      <Prose className="text-foreground-muted">
-        <p className="text-foreground">Read these in order. Not in summary. In full.</p>
+      <Prose className="text-muted-strong">
+        <p className="text-ink">Read these in order. Not in summary. In full.</p>
         <p>
           The practice does not live in the platform. It lives in these documents and in the work
           that flows from them. The platform is downstream of both.
@@ -34,7 +34,7 @@ export default async function PracticeStage() {
 
       <ol className="mt-10 space-y-3 list-decimal pl-6">
         {available.length === 0 ? (
-          <Prose className="text-foreground-muted">
+          <Prose className="text-muted-strong">
             <p>
               The foundational documents have not been seeded yet. Drop them into{' '}
               <code>packages/db/seeds/knowledge/</code> and run <code>pnpm db:seed</code>. Then
@@ -51,13 +51,13 @@ export default async function PracticeStage() {
               >
                 {d.title}
               </Link>
-              <p className="text-sm text-foreground-subtle mt-1">{d.category}</p>
+              <p className="text-sm text-muted mt-1">{d.category}</p>
             </li>
           ))
         )}
       </ol>
 
-      <Prose className="mt-10 text-foreground-muted">
+      <Prose className="mt-10 text-muted-strong">
         <p>
           When you have read them, come back here and continue. We will not stop you, but the
           practice will catch you out later if you skip this.

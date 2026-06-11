@@ -41,7 +41,7 @@ export function ConstellationMap({ points }: { points: Point[] }) {
   });
 
   return (
-    <div className="rounded-xl border border-border bg-surface overflow-hidden">
+    <div className="rounded-xl border border-edge card-quiet overflow-hidden">
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         className="block w-full h-auto"

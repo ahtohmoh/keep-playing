@@ -26,7 +26,7 @@ export default async function ActivityPage({ params }: { params: { slug: string 
     <div className="max-w-2xl">
       <Link
         href={`/projects/${project.slug}`}
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← {project.title}
       </Link>

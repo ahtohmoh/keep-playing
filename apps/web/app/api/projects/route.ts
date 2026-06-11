@@ -53,6 +53,7 @@ export async function POST(req: Request) {
     action: 'project.create',
     targetType: 'project',
     targetId: project.id,
+    projectId: project.id,
     payload: { slug: project.slug },
   });
 

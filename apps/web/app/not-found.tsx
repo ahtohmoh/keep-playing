@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <main className="min-h-dvh flex flex-col items-center justify-center px-6">
       <Heading level={2}>Nothing here.</Heading>
-      <Prose className="mt-3 text-foreground-muted text-center">
+      <Prose className="mt-3 text-muted-strong text-center">
         <p>That page does not exist, or you do not have access to it.</p>
       </Prose>
       <Link

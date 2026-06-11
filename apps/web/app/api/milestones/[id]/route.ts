@@ -53,6 +53,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     action,
     targetType: 'milestone',
     targetId: params.id,
+    projectId: ms.projectId,
     payload: parsed.data,
   });
 
@@ -79,6 +80,12 @@ export async function DELETE(_req: Request, { params }: { params: { id: string }
   }
 
   await db.delete(milestones).where(eq(milestones.id, params.id));
-  await audit({ userId: user.id, action: 'milestone.delete', targetType: 'milestone', targetId: params.id });
+  await audit({
+    userId: user.id,
+    action: 'milestone.delete',
+    targetType: 'milestone',
+    targetId: params.id,
+    projectId: ms.projectId,
+  });
   return NextResponse.json({ ok: true });
 }

@@ -10,7 +10,7 @@ export default async function InvitePage() {
   return (
     <div className="max-w-2xl">
       <Heading level={2}>Invite a member</Heading>
-      <Prose className="mt-3 text-foreground-muted">
+      <Prose className="mt-3 text-muted-strong">
         <p>
           Issue an invitation for a Resident, Fellow, Correspondent, or External Collaborator. The
           invitee receives a link, sets a password, and enters the Onboarding Wizard.

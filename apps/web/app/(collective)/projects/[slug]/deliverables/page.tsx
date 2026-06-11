@@ -45,7 +45,7 @@ export default async function DeliverablesPage({ params }: { params: { slug: str
     <div>
       <Link
         href={`/projects/${project.slug}`}
-        className="text-sm text-foreground-subtle hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-ink transition-colors"
       >
         ← {project.title}
       </Link>
@@ -55,16 +55,16 @@ export default async function DeliverablesPage({ params }: { params: { slug: str
 
       <div className="mt-8 space-y-3">
         {list.length === 0 ? (
-          <p className="text-foreground-muted text-sm">Nothing delivered yet.</p>
+          <p className="text-muted-strong text-sm">Nothing delivered yet.</p>
         ) : (
           list.map(({ d, uploader }) => (
             <div
               key={d.id}
-              className="flex items-center justify-between gap-4 rounded-md border border-border bg-surface px-4 py-3"
+              className="flex items-center justify-between gap-4 rounded-md border border-edge card-quiet px-4 py-3"
             >
               <div className="min-w-0">
-                <p className="text-foreground font-medium truncate">{d.title}</p>
-                <p className="mt-1 text-xs text-foreground-subtle">
+                <p className="text-ink font-medium truncate">{d.title}</p>
+                <p className="mt-1 text-xs text-muted">
                   {uploader.displayName ?? uploader.fullName} ·{' '}
                   {new Date(d.createdAt).toLocaleDateString('en-GB', {
                     year: 'numeric',

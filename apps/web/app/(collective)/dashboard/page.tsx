@@ -16,7 +16,7 @@ import { currentSeason, seasonProgress } from '@/lib/seasons';
 
 export default async function FounderDashboard() {
   const { user } = await requireUser();
-  if (user.tier !== 'founder') redirect('/');
+  if (user.tier !== 'founder') redirect('/home');
 
   const season = currentSeason();
   const progress = Math.round(seasonProgress() * 100);
@@ -65,7 +65,7 @@ export default async function FounderDashboard() {
   return (
     <div>
       <Heading level={2}>Founder dashboard</Heading>
-      <Prose className="mt-3 text-foreground-muted">
+      <Prose className="mt-3 text-muted-strong">
         <p>
           {season.name}. {progress}% through. The practice in one view.
         </p>
@@ -79,28 +79,28 @@ export default async function FounderDashboard() {
       </dl>
 
       <section className="mt-14">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
           Overdue milestones
         </h3>
         {overdueMilestones.length === 0 ? (
-          <p className="text-foreground-muted text-sm">Nothing overdue.</p>
+          <p className="text-muted-strong text-sm">Nothing overdue.</p>
         ) : (
           <ul className="space-y-2">
             {overdueMilestones.map(({ ms, p }) => (
               <li
                 key={ms.id}
-                className="flex items-baseline justify-between gap-3 rounded-md border border-warning/30 bg-surface px-4 py-3"
+                className="flex items-baseline justify-between gap-3 rounded-md border border-edge-strong card-quiet px-4 py-3"
               >
                 <div>
                   <Link
                     href={`/projects/${p.slug}/milestones`}
-                    className="text-foreground hover:text-accent transition-colors"
+                    className="text-ink hover:text-accent transition-colors"
                   >
                     {ms.title}
                   </Link>
-                  <p className="mt-0.5 text-xs text-foreground-subtle">{p.title}</p>
+                  <p className="mt-0.5 text-xs text-muted">{p.title}</p>
                 </div>
-                <span className="text-xs text-warning">
+                <span className="text-xs text-ink">
                   due{' '}
                   {ms.dueAt &&
                     new Date(ms.dueAt).toLocaleDateString('en-GB', {
@@ -115,28 +115,28 @@ export default async function FounderDashboard() {
       </section>
 
       <section className="mt-14">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
           Coming up
         </h3>
         {upcomingMilestones.length === 0 ? (
-          <p className="text-foreground-muted text-sm">No upcoming deadlines.</p>
+          <p className="text-muted-strong text-sm">No upcoming deadlines.</p>
         ) : (
           <ul className="space-y-2">
             {upcomingMilestones.map(({ ms, p }) => (
               <li
                 key={ms.id}
-                className="flex items-baseline justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3"
+                className="flex items-baseline justify-between gap-3 rounded-md border border-edge card-quiet px-4 py-3"
               >
                 <div>
                   <Link
                     href={`/projects/${p.slug}/milestones`}
-                    className="text-foreground hover:text-accent transition-colors"
+                    className="text-ink hover:text-accent transition-colors"
                   >
                     {ms.title}
                   </Link>
-                  <p className="mt-0.5 text-xs text-foreground-subtle">{p.title}</p>
+                  <p className="mt-0.5 text-xs text-muted">{p.title}</p>
                 </div>
-                <span className="text-xs text-foreground-subtle">
+                <span className="text-xs text-muted">
                   {ms.dueAt &&
                     new Date(ms.dueAt).toLocaleDateString('en-GB', {
                       year: 'numeric',
@@ -151,48 +151,48 @@ export default async function FounderDashboard() {
       </section>
 
       <section className="mt-14">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
           Active projects
         </h3>
         <ul className="space-y-2">
           {activeProjects.map((p) => (
             <li
               key={p.id}
-              className="flex items-baseline justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3"
+              className="flex items-baseline justify-between gap-3 rounded-md border border-edge card-quiet px-4 py-3"
             >
               <Link
                 href={`/projects/${p.slug}`}
-                className="text-foreground hover:text-accent transition-colors"
+                className="text-ink hover:text-accent transition-colors"
               >
                 {p.title}
               </Link>
-              <span className="text-xs text-foreground-subtle">{PROJECT_TYPE_LABEL[p.type]}</span>
+              <span className="text-xs text-muted">{PROJECT_TYPE_LABEL[p.type]}</span>
             </li>
           ))}
         </ul>
       </section>
 
       <section className="mt-14">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
           Pipeline awaiting acknowledgement
         </h3>
         {unackPipeline.length === 0 ? (
-          <p className="text-foreground-muted text-sm">All caught up.</p>
+          <p className="text-muted-strong text-sm">All caught up.</p>
         ) : (
           <ul className="space-y-2">
             {unackPipeline.slice(0, 8).map(({ pl, c }) => (
               <li
                 key={pl.id}
-                className="flex items-baseline justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3"
+                className="flex items-baseline justify-between gap-3 rounded-md border border-edge card-quiet px-4 py-3"
               >
                 <div>
                   <Link
                     href="/pipeline"
-                    className="text-foreground hover:text-accent transition-colors"
+                    className="text-ink hover:text-accent transition-colors"
                   >
                     {pl.counterpartyName}
                   </Link>
-                  <p className="mt-0.5 text-xs text-foreground-subtle">
+                  <p className="mt-0.5 text-xs text-muted">
                     {c.displayName ?? c.fullName} · {pl.status.replace('_', ' ')}
                   </p>
                 </div>
@@ -219,9 +219,9 @@ function Stat({
 }) {
   return (
     <div
-      className={`rounded-lg border p-5 ${tone === 'warning' ? 'border-warning/40 bg-surface' : 'border-border bg-surface'}`}
+      className={`rounded-lg border p-5 ${tone === 'warning' ? 'border-hairline-strong card-quiet' : 'border-hairline card-quiet'}`}
     >
-      <p className="text-xs uppercase tracking-wide text-foreground-subtle">{label}</p>
+      <p className="text-xs uppercase tracking-wide text-muted">{label}</p>
       <p className="mt-2 text-3xl font-semibold tabular-nums">{value}</p>
     </div>
   );

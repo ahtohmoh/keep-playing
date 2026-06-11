@@ -89,7 +89,7 @@ export function PipelineList({
                 <select
                   name="counterpartyType"
                   defaultValue=""
-                  className="h-10 w-full rounded-md border border-border bg-surface px-3 text-base text-foreground focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                  className="h-10 w-full rounded-md border border-edge card-quiet px-3 text-base text-ink focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink"
                 >
                   <option value="">Type (optional)</option>
                   <option value="investor">Investor</option>
@@ -100,7 +100,7 @@ export function PipelineList({
                 <select
                   name="status"
                   defaultValue="identified"
-                  className="h-10 w-full rounded-md border border-border bg-surface px-3 text-base text-foreground focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                  className="h-10 w-full rounded-md border border-edge card-quiet px-3 text-base text-ink focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink"
                 >
                   {STATUSES.map((s) => (
                     <option key={s} value={s}>
@@ -126,7 +126,7 @@ export function PipelineList({
       )}
 
       {entries.length === 0 ? (
-        <p className="text-foreground-muted text-sm">Nothing in the pipeline yet.</p>
+        <p className="text-muted-strong text-sm">Nothing in the pipeline yet.</p>
       ) : (
         <div className="space-y-10">
           {STATUSES.map((s) => {
@@ -134,18 +134,18 @@ export function PipelineList({
             if (list.length === 0) return null;
             return (
               <section key={s}>
-                <h3 className="text-sm font-medium uppercase tracking-wide text-foreground-subtle mb-3">
+                <h3 className="text-sm font-medium uppercase tracking-wide text-muted mb-3">
                   {STATUS_LABEL[s]}
-                  <span className="ml-2 text-foreground-subtle">· {list.length}</span>
+                  <span className="ml-2 text-muted">· {list.length}</span>
                 </h3>
                 <div className="space-y-3">
                   {list.map((e) => (
                     <Card key={e.id}>
                       <div className="flex flex-wrap items-baseline justify-between gap-3">
                         <div>
-                          <p className="text-foreground font-medium">{e.counterpartyName}</p>
+                          <p className="text-ink font-medium">{e.counterpartyName}</p>
                           {viewerTier === 'founder' && (
-                            <p className="mt-1 text-xs text-foreground-subtle">
+                            <p className="mt-1 text-xs text-muted">
                               {e.correspondentName}
                               {e.counterpartyType && ` · ${e.counterpartyType}`}
                             </p>
@@ -161,20 +161,20 @@ export function PipelineList({
                         )}
                       </div>
                       {(e.expectedOutcome || e.nextAction || e.notes) && (
-                        <div className="mt-3 space-y-1 text-sm text-foreground-muted">
+                        <div className="mt-3 space-y-1 text-sm text-muted-strong">
                           {e.expectedOutcome && (
                             <p>
-                              <span className="text-foreground-subtle">Outcome: </span>
+                              <span className="text-muted">Outcome: </span>
                               {e.expectedOutcome}
                             </p>
                           )}
                           {e.nextAction && (
                             <p>
-                              <span className="text-foreground-subtle">Next: </span>
+                              <span className="text-muted">Next: </span>
                               {e.nextAction}
                             </p>
                           )}
-                          {e.notes && <p className="text-foreground-muted">{e.notes}</p>}
+                          {e.notes && <p className="text-muted-strong">{e.notes}</p>}
                         </div>
                       )}
                     </Card>

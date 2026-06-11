@@ -17,7 +17,7 @@ export default async function ConstellationPage() {
   return (
     <div>
       <Heading level={2}>The Constellation</Heading>
-      <Prose className="mt-3 text-foreground-muted max-w-2xl">
+      <Prose className="mt-3 text-muted-strong max-w-2xl">
         <p>
           Every artifact AhTohMoh has shipped. Numbered, named, in motion. Each new arrival joins
           the constellation with quiet ceremony.
@@ -25,7 +25,7 @@ export default async function ConstellationPage() {
       </Prose>
 
       {shipped.length === 0 ? (
-        <p className="mt-10 text-foreground-muted text-sm">
+        <p className="mt-10 text-muted-strong text-sm">
           No shipped artifacts yet. The first one joins the constellation the moment its status
           becomes <span className="text-accent">shipped</span>.
         </p>
@@ -46,16 +46,16 @@ export default async function ConstellationPage() {
               <li key={p.id}>
                 <Link
                   href={`/projects/${p.slug}`}
-                  className="block rounded-lg border border-border bg-surface p-4 hover:border-border-emphasis transition-colors"
+                  className="block rounded-lg border border-edge card-quiet p-4 hover:border-hairline transition-colors"
                 >
                   <p>
                     <span className="font-mono text-accent mr-2">
                       · {String(p.artifactNumber!).padStart(3, '0')}
                     </span>
-                    <span className="text-foreground">{p.title}</span>
+                    <span className="text-ink">{p.title}</span>
                   </p>
                   {p.description && (
-                    <p className="mt-1 text-sm text-foreground-muted">{p.description}</p>
+                    <p className="mt-1 text-sm text-muted-strong">{p.description}</p>
                   )}
                 </Link>
               </li>

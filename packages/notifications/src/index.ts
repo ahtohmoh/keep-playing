@@ -14,3 +14,4 @@ export * from './types';
 export * from './templates';
 export * from './send';
 export * from './whatsapp';
+export * from './email';

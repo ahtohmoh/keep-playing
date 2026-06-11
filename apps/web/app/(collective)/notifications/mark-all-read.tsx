@@ -15,7 +15,7 @@ export function MarkAllRead() {
     <button
       onClick={go}
       disabled={busy}
-      className="text-sm text-foreground-muted hover:text-foreground transition-colors"
+      className="text-sm text-muted-strong hover:text-ink transition-colors"
     >
       Mark all read
     </button>

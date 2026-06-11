@@ -12,7 +12,7 @@ export default async function NewProjectPage() {
   return (
     <div className="max-w-2xl">
       <Heading level={2}>Start a project</Heading>
-      <Prose className="mt-3 text-foreground-muted">
+      <Prose className="mt-3 text-muted-strong">
         <p>
           A project is the central organising unit. Give it a name, decide what kind of work it
           is, and (optionally) a target ship date. You can write the brief and add contributors

@@ -59,7 +59,7 @@ export function NewProjectForm() {
     <Card className="mt-8">
       <form className="space-y-4" onSubmit={onSubmit}>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Title</span>
+          <span className="text-sm text-muted-strong">Title</span>
           <Input
             required
             value={title}
@@ -69,7 +69,7 @@ export function NewProjectForm() {
           />
         </label>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Slug</span>
+          <span className="text-sm text-muted-strong">Slug</span>
           <Input
             required
             value={slug}
@@ -82,11 +82,11 @@ export function NewProjectForm() {
           />
         </label>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Type</span>
+          <span className="text-sm text-muted-strong">Type</span>
           <select
             value={type}
             onChange={(e) => setType(e.target.value as ProjectType)}
-            className="mt-1 h-10 w-full rounded-md border border-border bg-surface px-3 text-base text-foreground focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+            className="mt-1 h-10 w-full rounded-md border border-edge card-quiet px-3 text-base text-ink focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink"
           >
             {PROJECT_TYPES.map((t) => (
               <option key={t} value={t}>
@@ -96,21 +96,21 @@ export function NewProjectForm() {
           </select>
         </label>
         <label className="block">
-          <span className="text-sm text-foreground-muted">Short description (optional)</span>
+          <span className="text-sm text-muted-strong">Short description (optional)</span>
           <Textarea name="description" placeholder="One or two sentences." className="mt-1" />
         </label>
         {type === 'commissioned_engagement' && (
           <label className="block">
-            <span className="text-sm text-foreground-muted">Commissioning partner</span>
+            <span className="text-sm text-muted-strong">Commissioning partner</span>
             <Input name="externalPartnerName" placeholder="e.g. The Met" className="mt-1" />
           </label>
         )}
         <label className="block">
-          <span className="text-sm text-foreground-muted">Target ship date (optional)</span>
+          <span className="text-sm text-muted-strong">Target ship date (optional)</span>
           <Input type="date" name="targetShipDate" className="mt-1" />
         </label>
 
-        {error && <p className="text-sm text-danger">{error}</p>}
+        {error && <p className="text-sm text-ink">{error}</p>}
 
         <Button type="submit" disabled={submitting}>
           {submitting ? 'Opening...' : 'Open project'}

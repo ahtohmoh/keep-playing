@@ -89,6 +89,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     action: 'deliverable.init',
     targetType: 'deliverable',
     targetId: d.id,
+    projectId: params.id,
     payload: { projectId: params.id, title: parsed.data.title },
   });
 

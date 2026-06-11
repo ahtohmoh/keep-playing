@@ -18,5 +18,8 @@ export type NotificationPayload = {
   title: string;
   body?: string;
   link?: string;
+  /** Deliver via email (the proactive channel of record). */
+  sendEmail?: boolean;
+  /** Deliver via WhatsApp too, if the member opted in. Optional, never load-bearing. */
   sendWhatsApp?: boolean;
 };

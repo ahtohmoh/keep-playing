@@ -8,7 +8,9 @@
     "scheme": "keepplaying",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#060709",
+    "icon": "./assets/icon.png",
     "splash": {
+      "image": "./assets/adaptive-icon.png",
       "backgroundColor": "#060709",
       "resizeMode": "contain"
     },
@@ -19,6 +21,7 @@
     "android": {
       "package": "com.ahtohmoh.keepplaying",
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#060709"
       }
     },

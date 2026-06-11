@@ -10,7 +10,9 @@ services:
     runtime: node
     plan: starter
     region: frankfurt # Closest Render region to Accra
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm turbo build --filter=@keep-playing/web
+    # npm-installed pnpm, not corepack — corepack's bundled signature keys
+    # go stale when npm rotates signing keys ("Cannot find matching keyid").
+    buildCommand: npm install -g pnpm@9.15.0 && pnpm install --frozen-lockfile && pnpm turbo build --filter=@keep-playing/web
     startCommand: pnpm --filter @keep-playing/web start
     healthCheckPath: /api/health
     envVars:

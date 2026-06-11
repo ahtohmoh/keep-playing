@@ -17,7 +17,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://app.keepplaying.studio"
+        "EXPO_PUBLIC_API_URL": "https://keep-playing.onrender.com"
       }
     },
     "production": {

@@ -10,10 +10,20 @@ import {
 } from '@keep-playing/auth';
 import { loginSchema } from '@keep-playing/shared';
 import { audit } from '@/lib/audit';
+import { rateLimit, clientIp } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
 export async function POST(req: Request) {
+  // 5 attempts per 15 minutes per IP (spec §20).
+  const rl = rateLimit({ key: `login:${clientIp(req)}`, limit: 5, windowMs: 15 * 60 * 1000 });
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { title: 'Too many attempts. Take a breath.', status: 429 },
+      { status: 429, headers: { 'retry-after': String(rl.retryAfterSeconds) } },
+    );
+  }
+
   let body: Record<string, unknown>;
   const ct = req.headers.get('content-type') ?? '';
   if (ct.includes('application/json')) {
@@ -71,5 +81,17 @@ export async function POST(req: Request) {
     return NextResponse.redirect(new URL(dest, req.url), { status: 303 });
   }
 
-  return NextResponse.json({ ok: true });
+  // JSON clients (the mobile app) get the token for Bearer auth.
+  return NextResponse.json({
+    ok: true,
+    token,
+    user: {
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      displayName: user.displayName,
+      tier: user.tier,
+      onboardingCompletedAt: user.onboardingCompletedAt,
+    },
+  });
 }

@@ -73,7 +73,16 @@ export const projectCreateSchema = z.object({
 export const projectUpdateSchema = projectCreateSchema.partial().extend({
   status: z.enum(PROJECT_STATUSES).optional(),
   brief: z.object({ body: z.string().max(40000) }).optional(),
+  /** One-line "why" recorded alongside the brief revision. */
+  briefRevisionNote: z.string().max(300).optional(),
 });
+
+export const decisionCreateSchema = z.object({
+  title: z.string().min(1).max(300),
+  rationale: z.string().max(4000).optional(),
+  reversesDecisionId: z.string().uuid().optional(),
+});
+export type DecisionCreateInput = z.infer<typeof decisionCreateSchema>;
 
 export const projectContributorAddSchema = z.object({
   userId: z.string().uuid(),

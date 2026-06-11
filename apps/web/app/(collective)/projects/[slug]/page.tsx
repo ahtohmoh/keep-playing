@@ -90,6 +90,12 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           Deliverables
         </Link>
         <Link
+          href={`/projects/${project.slug}/decisions`}
+          className="text-muted-strong hover:text-ink transition-colors"
+        >
+          Decisions
+        </Link>
+        <Link
           href={`/projects/${project.slug}/activity`}
           className="text-muted-strong hover:text-ink transition-colors"
         >

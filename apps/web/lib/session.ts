@@ -1,12 +1,16 @@
 /**
  * Request-scoped session helpers for Next.js.
  *
- * `getCurrentSession()` reads the session cookie and validates the token.
+ * `getCurrentSession()` reads the session from the cookie (web) or the
+ * Authorization: Bearer header (mobile app) and validates the token.
  * `requireUser()` redirects to /login if no session.
- * `requireTier()` redirects /login if no session and returns 403 if wrong tier.
+ * `requireTier()` redirects /login if no session, /home if wrong tier.
+ *
+ * The mobile app stores its session token in SecureStore and sends it as a
+ * Bearer header — same token format, same validation path, no cookies needed.
  */
 import 'server-only';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 import {
@@ -17,7 +21,12 @@ import {
 import type { Tier } from '@keep-playing/shared';
 
 export const getCurrentSession = cache(async (): Promise<SessionValidationResult> => {
-  const token = cookies().get(SESSION_COOKIE_NAME)?.value;
+  // Cookie first (web), then Bearer (mobile).
+  let token = cookies().get(SESSION_COOKIE_NAME)?.value;
+  if (!token) {
+    const auth = headers().get('authorization');
+    if (auth?.startsWith('Bearer ')) token = auth.slice('Bearer '.length).trim();
+  }
   if (!token) return { session: null, user: null };
   return validateSessionToken(token);
 });

@@ -20,6 +20,9 @@ export type Action =
   | 'milestone.create'
   | 'milestone.edit'
   | 'milestone.complete'
+  // Decisions
+  | 'decision.create'
+  | 'decision.view'
   // Deliverables
   | 'deliverable.upload'
   | 'deliverable.delete'
@@ -104,6 +107,15 @@ export function can(action: Action, ctx: PermissionContext): boolean {
       return false;
 
     case 'milestone.complete':
+      if (!ctx.isProjectContributor) return false;
+      return ['lead', 'contributor'].includes(ctx.contributionRole ?? '');
+
+    // ────────────────────────── Decisions ──────────────────────────
+    case 'decision.view':
+      return can('project.view', ctx);
+
+    case 'decision.create':
+      // Anyone shaping the work records decisions: leads and contributors.
       if (!ctx.isProjectContributor) return false;
       return ['lead', 'contributor'].includes(ctx.contributionRole ?? '');
 

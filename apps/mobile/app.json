@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Keep Playing",
+    "slug": "keep-playing",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "scheme": "keepplaying",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#060709",
+    "splash": {
+      "backgroundColor": "#060709",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.ahtohmoh.keepplaying"
+    },
+    "android": {
+      "package": "com.ahtohmoh.keepplaying",
+      "adaptiveIcon": {
+        "backgroundColor": "#060709"
+      }
+    },
+    "plugins": ["expo-router", "expo-secure-store"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

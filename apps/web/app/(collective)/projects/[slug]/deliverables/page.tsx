@@ -57,37 +57,82 @@ export default async function DeliverablesPage({ params }: { params: { slug: str
         {list.length === 0 ? (
           <p className="text-muted-strong text-sm">Nothing delivered yet.</p>
         ) : (
-          list.map(({ d, uploader }) => (
-            <div
-              key={d.id}
-              className="flex items-center justify-between gap-4 rounded-md border border-edge card-quiet px-4 py-3"
-            >
-              <div className="min-w-0">
-                <p className="text-ink font-medium truncate">{d.title}</p>
-                <p className="mt-1 text-xs text-muted">
-                  {uploader.displayName ?? uploader.fullName} ·{' '}
-                  {new Date(d.createdAt).toLocaleDateString('en-GB', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                  {d.fileSize != null && ` · ${formatBytes(d.fileSize)}`}
-                </p>
+          list.map(({ d, uploader }) => {
+            const kind = previewKind(d.fileType);
+            return (
+              <div key={d.id} className="rounded-lg border border-edge card-quiet overflow-hidden">
+                {/* The studio wall — inline previews for visual work. */}
+                {kind === 'image' && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={`/api/deliverables/${d.id}/download?inline=1`}
+                    alt={d.title}
+                    loading="lazy"
+                    className="w-full max-h-[420px] object-contain bg-bg"
+                  />
+                )}
+                {kind === 'video' && (
+                  <video
+                    src={`/api/deliverables/${d.id}/download?inline=1`}
+                    controls
+                    preload="metadata"
+                    className="w-full max-h-[420px] bg-bg"
+                  />
+                )}
+                {kind === 'audio' && (
+                  <audio
+                    src={`/api/deliverables/${d.id}/download?inline=1`}
+                    controls
+                    preload="metadata"
+                    className="w-full px-4 pt-4"
+                  />
+                )}
+                {kind === 'pdf' && (
+                  <iframe
+                    src={`/api/deliverables/${d.id}/download?inline=1`}
+                    title={d.title}
+                    className="w-full h-[420px] bg-bg border-b border-edge"
+                  />
+                )}
+                <div className="flex items-center justify-between gap-4 px-4 py-3">
+                  <div className="min-w-0">
+                    <p className="text-ink font-medium truncate">{d.title}</p>
+                    <p className="mt-1 text-xs text-muted">
+                      {uploader.displayName ?? uploader.fullName} ·{' '}
+                      {new Date(d.createdAt).toLocaleDateString('en-GB', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                      {d.fileSize != null && ` · ${formatBytes(d.fileSize)}`}
+                      {d.version > 1 && ` · v${d.version}`}
+                    </p>
+                  </div>
+                  <a
+                    href={`/api/deliverables/${d.id}/download`}
+                    className="text-sm text-accent hover:opacity-80 transition-opacity shrink-0"
+                  >
+                    Download
+                  </a>
+                </div>
               </div>
-              <a
-                href={`/api/deliverables/${d.id}/download`}
-                className="text-sm text-accent hover:opacity-80 transition-opacity"
-              >
-                Download
-              </a>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
       {canUpload && <UploadDeliverable projectId={project.id} />}
     </div>
   );
+}
+
+function previewKind(mime: string | null): 'image' | 'video' | 'audio' | 'pdf' | 'none' {
+  if (!mime) return 'none';
+  if (mime.startsWith('image/')) return 'image';
+  if (mime.startsWith('video/')) return 'video';
+  if (mime.startsWith('audio/')) return 'audio';
+  if (mime === 'application/pdf') return 'pdf';
+  return 'none';
 }
 
 function formatBytes(n: number): string {

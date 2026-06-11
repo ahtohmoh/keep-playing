@@ -13,13 +13,14 @@ import { Heading, Prose, TierBadge } from '@keep-playing/ui';
 import { TIER_LABEL, PROJECT_TYPE_LABEL } from '@keep-playing/shared';
 import { requireUser } from '@/lib/session';
 import { currentSeason, seasonProgress } from '@/lib/seasons';
+import { SeasonForm } from './season-form';
 
 export default async function FounderDashboard() {
   const { user } = await requireUser();
   if (user.tier !== 'founder') redirect('/home');
 
-  const season = currentSeason();
-  const progress = Math.round(seasonProgress() * 100);
+  const season = await currentSeason();
+  const progress = Math.round((await seasonProgress()) * 100);
 
   const [
     activeProjects,
@@ -70,6 +71,9 @@ export default async function FounderDashboard() {
           {season.name}. {progress}% through. The practice in one view.
         </p>
       </Prose>
+      <div className="mt-4">
+        <SeasonForm />
+      </div>
 
       <dl className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
         <Stat label="Active projects" value={activeProjects.length} />

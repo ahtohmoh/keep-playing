@@ -10,10 +10,11 @@ import { catchUp } from '@/lib/catch-up';
 export default async function CollectiveHome() {
   const { user } = await requireUser();
 
-  const [activeProjects, members, items] = await Promise.all([
+  const [activeProjects, members, items, season] = await Promise.all([
     db.select({ c: count() }).from(projects).where(eq(projects.status, 'active')),
     db.select({ c: count() }).from(users).where(eq(users.active, true)),
     catchUp(user),
+    currentSeason(),
   ]);
 
   return (
@@ -64,11 +65,7 @@ export default async function CollectiveHome() {
       <dl className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">
         <Stat label="Active projects" value={activeProjects[0]?.c ?? 0} href="/projects" />
         <Stat label="Collective" value={members[0]?.c ?? 0} href="/members" />
-        <Stat
-          label="Season"
-          value={currentSeason().name.replace(/^The /, '')}
-          href={null}
-        />
+        <Stat label="Season" value={season.name.replace(/^The /, '')} href={null} />
         <Stat label="Tier" value={user.tier.replace('_', ' ')} href={null} />
       </dl>
 

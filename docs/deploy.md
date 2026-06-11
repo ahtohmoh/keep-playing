@@ -1,6 +1,20 @@
 # Deploy
 
-Keep Playing is built to deploy on Vercel + Neon + Cloudflare R2. This doc gets a new instance from zero to running.
+Keep Playing deploys on **Render** (web service + managed Postgres) with Cloudflare R2 for files. The repo carries a [`render.yaml`](../render.yaml) blueprint — connecting the GitHub repo to Render provisions everything in one step.
+
+## Quick path (Render)
+
+1. In Render: **New → Blueprint**, connect `ahtohmoh/keep-playing`.
+2. Render reads `render.yaml`, creates the web service + Postgres, generates `AUTH_SECRET`.
+3. Add the secrets in the dashboard: R2 keys, `OPENAI_API_KEY`, `RESEND_API_KEY`.
+4. First deploy finishes → run migrations + seed from your machine with `DATABASE_URL` pointed at the Render Postgres (External Connection String):
+   ```bash
+   pnpm db:migrate && pnpm db:seed
+   FOUNDER_PASSWORD=... pnpm --filter @keep-playing/db bootstrap
+   ```
+5. Point `app.keepplaying.studio` at the service (Render → Settings → Custom Domains).
+
+The sections below cover the third-party services in detail; Vercel + Neon remain a supported alternative.
 
 ## Prerequisites
 

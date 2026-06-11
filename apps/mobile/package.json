@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
     "@keep-playing/shared": "workspace:*",
     "expo": "~52.0.0",
     "expo-av": "~15.0.1",

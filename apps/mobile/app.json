@@ -2,6 +2,7 @@
   "expo": {
     "name": "Keep Playing",
     "slug": "keep-playing",
+    "owner": "krasumashi",
     "version": "0.0.1",
     "orientation": "portrait",
     "scheme": "keepplaying",
@@ -24,6 +25,11 @@
     "plugins": ["expo-router", "expo-secure-store"],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "29223b1b-efbd-431e-a185-28d02e17639a"
+      }
     }
   }
 }

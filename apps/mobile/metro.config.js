@@ -1,21 +1,8 @@
 /**
- * Metro config for a pnpm monorepo.
- * Watch the workspace root and resolve from both node_modules trees.
+ * Default Expo Metro config. The workspace uses pnpm's hoisted node-linker
+ * (see root .npmrc), so no monorepo resolution overrides are needed —
+ * expo/metro-config detects the workspace root on its own.
  */
 const { getDefaultConfig } = require('expo/metro-config');
-const path = require('path');
 
-const projectRoot = __dirname;
-const workspaceRoot = path.resolve(projectRoot, '../..');
-
-const config = getDefaultConfig(projectRoot);
-
-config.watchFolders = [workspaceRoot];
-config.resolver.nodeModulesPaths = [
-  path.resolve(projectRoot, 'node_modules'),
-  path.resolve(workspaceRoot, 'node_modules'),
-];
-// pnpm symlinks — let Metro follow them.
-config.resolver.unstable_enableSymlinks = true;
-
-module.exports = config;
+module.exports = getDefaultConfig(__dirname);
